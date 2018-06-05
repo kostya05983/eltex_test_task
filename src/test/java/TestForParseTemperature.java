@@ -1,3 +1,6 @@
+import API.HttpTemperature;
+import API.Temperature;
+
 public class TestForParseTemperature {
 
     public static void main(String[] args) {

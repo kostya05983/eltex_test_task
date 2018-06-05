@@ -1,3 +1,5 @@
+package API;
+
 public class Temperature {
     private String current;
     private String tomorrow;

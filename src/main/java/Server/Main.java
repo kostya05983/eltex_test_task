@@ -1,3 +1,5 @@
+package Server;
+
 import org.apache.catalina.startup.Tomcat;
 
 import java.io.File;
