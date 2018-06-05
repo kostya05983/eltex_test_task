@@ -10,4 +10,6 @@ import javax.servlet.annotation.WebServlet;
         ui = VaadinUI.class
 )
 public class VaadinServlet extends com.vaadin.server.VaadinServlet {
+
+
 }

@@ -2,22 +2,25 @@ package Vaadin.Panels;
 
 import API.HttpExchangeRates;
 import API.Rates;
+import Vaadin.VaadinUI;
 import com.vaadin.ui.*;
 
 public class ExchangeRatesPanel extends Panel {
 
-    private final String USD = "USD:";
-    private final String EUR = "EUR:";
+    private final String USD = "USD: ";
+    private final String EUR = "EUR: ";
 
     private HttpExchangeRates httpExchangeRates = new HttpExchangeRates();
 
+    private VaadinUI context;
     private VerticalLayout verticalLayout;
     private Label labelUSD;
     private Label labelEUR;
 
-    public ExchangeRatesPanel(String caption){
+    public ExchangeRatesPanel(String caption, VaadinUI context){
         super(caption);
         verticalLayout = new VerticalLayout();
+        this.context=context;
     }
 
     public void init() {
@@ -47,6 +50,8 @@ public class ExchangeRatesPanel extends Panel {
             Rates rates = httpExchangeRates.getRates();
             labelUSD.setValue(USD+rates.getUSD());
             labelEUR.setValue(EUR+rates.getEUR());
+
+            context.refreshDate();
             progressBar.setValue(100.0f);
 
             verticalLayout.removeComponent(progressBar);
