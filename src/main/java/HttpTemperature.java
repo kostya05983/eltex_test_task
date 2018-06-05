@@ -1,3 +1,5 @@
+import YandexWeather.ResponseWeather;
+import com.google.gson.Gson;
 import org.jsoup.helper.HttpConnection;
 import sun.security.util.IOUtils;
 
@@ -23,6 +25,16 @@ public class HttpTemperature {
             httpURLConnection = (HttpURLConnection)new URL(GET_DATA+"lat="+coordinate.getX()
             +"&lon="+coordinate.getY()).openConnection();
 
+            InputStream inputStream = httpURLConnection.getInputStream();
+            byte[] result = new byte[inputStream.available()];
+            inputStream.read(result);
+
+
+            String response = new String(result);
+            Gson gson = new Gson();
+            ResponseWeather responseWeather = gson.fromJson(response,ResponseWeather.class);
+
+            //Temperature temperature = new Temperature()
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
