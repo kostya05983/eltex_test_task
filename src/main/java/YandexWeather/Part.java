@@ -1,14 +1,15 @@
 package YandexWeather;
 
 public class Part {
-    private Fact night;
-    private Fact morning;
-    private Fact day;
-    private Fact evening;
-    private Fact day_short;
-    private Fact night_short;
+    private FactForParts night;
+    private FactForParts morning;
+    private FactForParts day;
+    private FactForParts evening;
+    private FactForParts day_short;
+    private FactForParts night_short;
 
-    public Part(Fact night, Fact morning, Fact day, Fact evening, Fact day_short, Fact night_short) {
+
+    public Part(FactForParts night, FactForParts morning, FactForParts day, FactForParts evening, FactForParts day_short, FactForParts night_short) {
         this.night = night;
         this.morning = morning;
         this.day = day;
@@ -17,51 +18,51 @@ public class Part {
         this.night_short = night_short;
     }
 
-    public Fact getNight() {
+    public FactForParts getNight() {
         return night;
     }
 
-    public void setNight(Fact night) {
+    public void setNight(FactForParts night) {
         this.night = night;
     }
 
-    public Fact getMorning() {
+    public FactForParts getMorning() {
         return morning;
     }
 
-    public void setMorning(Fact morning) {
+    public void setMorning(FactForParts morning) {
         this.morning = morning;
     }
 
-    public Fact getDay() {
+    public FactForParts getDay() {
         return day;
     }
 
-    public void setDay(Fact day) {
+    public void setDay(FactForParts day) {
         this.day = day;
     }
 
-    public Fact getEvening() {
+    public FactForParts getEvening() {
         return evening;
     }
 
-    public void setEvening(Fact evening) {
+    public void setEvening(FactForParts evening) {
         this.evening = evening;
     }
 
-    public Fact getDay_short() {
+    public FactForParts getDay_short() {
         return day_short;
     }
 
-    public void setDay_short(Fact day_short) {
+    public void setDay_short(FactForParts day_short) {
         this.day_short = day_short;
     }
 
-    public Fact getNight_short() {
+    public FactForParts getNight_short() {
         return night_short;
     }
 
-    public void setNight_short(Fact night_short) {
+    public void setNight_short(FactForParts night_short) {
         this.night_short = night_short;
     }
 }

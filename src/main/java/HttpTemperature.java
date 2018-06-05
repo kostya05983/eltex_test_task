@@ -1,7 +1,5 @@
 import YandexWeather.ResponseWeather;
 import com.google.gson.Gson;
-import org.jsoup.helper.HttpConnection;
-import sun.security.util.IOUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -11,47 +9,46 @@ import java.net.URL;
 
 public class HttpTemperature {
     private final String KEY = "51813ee8-0cc6-4c81-8252-d6a34a242639";
-    private final String GET_DATA = "GET https://api.weather.yandex.ru/v1/informers?limit=2&";
+    private final String GET_DATA = "https://api.weather.yandex.ru/v1/forecast?limit=2" + "&extra=true&";
     HttpURLConnection httpURLConnection;
 
 
-    public HttpTemperature(){
-
-    }
-
-    public Temperature getTemperature(String location){
+    public Temperature getTemperature(String location) {
         Coordinate coordinate = getCoordinates(location);
+        Temperature temperature = null;
         try {
-            httpURLConnection = (HttpURLConnection)new URL(GET_DATA+"lat="+coordinate.getX()
-            +"&lon="+coordinate.getY()).openConnection();
+            URL url = new URL(GET_DATA + "lat=" + coordinate.getX()
+                    + "&lon=" + coordinate.getY());
+
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.addRequestProperty("X-Yandex-API-Key", KEY);
 
             InputStream inputStream = httpURLConnection.getInputStream();
-            byte[] result = new byte[inputStream.available()];
-            inputStream.read(result);
+            byte[] result = inputStream.readAllBytes();
 
 
             String response = new String(result);
             Gson gson = new Gson();
-            ResponseWeather responseWeather = gson.fromJson(response,ResponseWeather.class);
+            ResponseWeather responseWeather = gson.fromJson(response, ResponseWeather.class);
 
-            //Temperature temperature = new Temperature()
+            temperature = new Temperature("" + responseWeather.getFact().getTemp(),
+                    "" + responseWeather.getForecasts().get(1).getParts().getDay().getTemp_avg());
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             httpURLConnection.disconnect();
         }
 
-        return null;
+        return temperature;
     }
 
     private Coordinate getCoordinates(String request) {
-        HttpsURLConnection httpsURLConnection=null;
+        HttpsURLConnection httpsURLConnection = null;
         try {
             URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=" + request + "&key=AIzaSyCb_BYsT7FKxYtUSHWcB_lZE-aAYrX5wfk");
-             httpsURLConnection = (HttpsURLConnection) url.openConnection();
+            httpsURLConnection = (HttpsURLConnection) url.openConnection();
             InputStream inputStream = httpsURLConnection.getInputStream();
-            byte[] result = new byte[inputStream.available()];
-            inputStream.read(result);
+            byte[] result = inputStream.readAllBytes();
 
             String response = new String(result);
             response = response.substring(response.indexOf("location"));
@@ -63,12 +60,12 @@ public class HttpTemperature {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             assert httpsURLConnection != null;
             httpsURLConnection.disconnect();
         }
         return null;
     }
+
 
 }
