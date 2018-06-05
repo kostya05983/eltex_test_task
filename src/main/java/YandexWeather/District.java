@@ -1,5 +1,6 @@
 package YandexWeather;
 
+//https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/
 public class District {
     private int id;
     private String name;

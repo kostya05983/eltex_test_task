@@ -2,33 +2,37 @@ package Vaadin;
 
 
 import Base.Connect;
+import com.vaadin.annotations.StyleSheet;
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.WebBrowser;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import com.vaadin.ui.themes.ValoTheme;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class VaadinUI extends UI{
 
+    private final String VAADINUI = "vaadinUI";
     private final String DATE_CAPTION = "Информация по состоянию на ";
     private static Label dateLabel;
     private static Label ipLabel;
 
     @Override
     protected void init(VaadinRequest request) {
+        Page.Styles styles = Page.getCurrent().getStyles();
+        styles.add(".vaadinUI-head { margin-left: 500px; }");
+
         refresh();
         VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setPrimaryStyleName(VAADINUI);
         setContent(verticalLayout);
 
-        Label label = new Label("Тестовое сетевое приложение");
-        verticalLayout.addComponent(label);
+        Label head = new Label("Тестовое сетевое приложение");
+        head.setPrimaryStyleName(VAADINUI+"-head");
+        verticalLayout.addComponent(head);
 
         verticalLayout.addComponent(new MainHorizontalLayout(this));
 

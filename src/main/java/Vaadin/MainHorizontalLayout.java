@@ -11,7 +11,7 @@ public class MainHorizontalLayout extends HorizontalLayout {
     private ExchangeRatesPanel exchangeRatesPanel ;
     private VisistsPanel visistsPanel = new VisistsPanel("Количество посетителей");
 
-    public MainHorizontalLayout(VaadinUI context){
+    public MainHorizontalLayout(VaadinUI context) {
         weatherPanel = new WeatherPanel("Погода",context);
         addComponent(weatherPanel);
         weatherPanel.init();
