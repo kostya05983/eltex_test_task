@@ -17,6 +17,6 @@ public class VaadinUI extends UI{
 
 
         verticalLayout.addComponent(new MainHorizontalLayout());
-        UI.getCurrent().setPollInterval( 1000 );
+        UI.getCurrent().setPollInterval( 100 );
     }
 }
