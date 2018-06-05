@@ -13,10 +13,10 @@ public class VaadinUI extends UI{
         setContent(verticalLayout);
 
         Label label = new Label("Тестовое сетевое приложение");
-
+        verticalLayout.addComponent(label);
 
 
         verticalLayout.addComponent(new MainHorizontalLayout());
-
+        UI.getCurrent().setPollInterval( 1000 );
     }
 }

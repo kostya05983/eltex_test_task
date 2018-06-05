@@ -2,6 +2,8 @@ package API;
 
 import YandexWeather.ResponseWeather;
 import com.google.gson.Gson;
+import com.vaadin.ui.ProgressBar;
+
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -32,6 +34,38 @@ public class HttpTemperature {
             String response = new String(result);
             Gson gson = new Gson();
             ResponseWeather responseWeather = gson.fromJson(response, ResponseWeather.class);
+
+            temperature = new Temperature("" + responseWeather.getFact().getTemp(),
+                    "" + responseWeather.getForecasts().get(1).getParts().getDay().getTemp_avg());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            httpURLConnection.disconnect();
+        }
+
+        return temperature;
+    }
+
+    public Temperature getTemperature(String location, ProgressBar progressBar) {
+        Coordinate coordinate = getCoordinates(location);
+        Temperature temperature = null;
+        try {
+            URL url = new URL(GET_DATA + "lat=" + coordinate.getX()
+                    + "&lon=" + coordinate.getY());
+            progressBar.setValue(10.0f);
+
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.addRequestProperty("X-Yandex-API-Key", KEY);
+            progressBar.setValue(30.0f);
+
+            InputStream inputStream = httpURLConnection.getInputStream();
+            byte[] result = inputStream.readAllBytes();
+            progressBar.setValue(40.0f);
+
+            String response = new String(result);
+            Gson gson = new Gson();
+            ResponseWeather responseWeather = gson.fromJson(response, ResponseWeather.class);
+            progressBar.setValue(60.0f);
 
             temperature = new Temperature("" + responseWeather.getFact().getTemp(),
                     "" + responseWeather.getForecasts().get(1).getParts().getDay().getTemp_avg());
