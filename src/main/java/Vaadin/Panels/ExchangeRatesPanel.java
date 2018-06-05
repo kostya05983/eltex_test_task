@@ -1,4 +1,14 @@
 package Vaadin.Panels;
 
-public class ExchangeRatesPanel {
+import com.vaadin.ui.Panel;
+
+public class ExchangeRatesPanel extends Panel {
+
+    public ExchangeRatesPanel(String caption){
+        super(caption);
+    }
+
+    public void init(){
+
+    }
 }
