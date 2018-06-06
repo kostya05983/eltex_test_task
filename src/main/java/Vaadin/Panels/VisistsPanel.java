@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class VisistsPanel extends Panel {
 
+    private final String VISITORS = "visitors";
     private final Logger logger = LogManager.getLogger(VisistsPanel.class);
     private VerticalLayout verticalLayout;
     private Label amountLabel;
@@ -24,6 +25,7 @@ public class VisistsPanel extends Panel {
     }
 
     public void init() {
+        this.setPrimaryStyleName(VISITORS);
         amountLabel = new Label("0");
         verticalLayout.addComponent(amountLabel);
         logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : initialized amountLabel with 0");
