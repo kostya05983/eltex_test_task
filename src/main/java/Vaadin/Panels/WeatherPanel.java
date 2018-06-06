@@ -46,6 +46,7 @@ public class WeatherPanel extends Panel {
         }.getClass().getEnclosingMethod().getName() + " : set Content of WeatherPanel");
     }
 
+    //method forcustom ComboBox
     private void initComboBox() {
         List<String> cities = new ArrayList<>();
         cities.add("Новосибирск");
@@ -54,6 +55,7 @@ public class WeatherPanel extends Panel {
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : initialized list of cities");
 
+        ///init ComboBox
         comboBox = new ComboBox<>();
         comboBox.setItems(cities);
         logger.debug(new Object() {
@@ -63,7 +65,9 @@ public class WeatherPanel extends Panel {
         }.getClass().getEnclosingMethod().getName() + " : add comboBox");
     }
 
+    //method for Customizing Panel
     private void initWeather() {
+        //getting Temperature
         HttpTemperature httpTemperature = new HttpTemperature();
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : httpTemperature created");
@@ -71,11 +75,13 @@ public class WeatherPanel extends Panel {
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : temperature was gotten");
 
+        //set currentWeather
         Label labelCurrent = new Label(CURRENT_WEATHER + temperature.getCurrent());
         verticalLayout.addComponent(labelCurrent);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : initialized label with CurrentWeather");
 
+        //set TomorrowWeather
         Label labelTomorrow = new Label(TOMORROW_WEATHER + temperature.getTomorrow());
         verticalLayout.addComponent(labelTomorrow);
         logger.debug(new Object() {
@@ -83,13 +89,14 @@ public class WeatherPanel extends Panel {
 
         Button refresh = new Button();
         refresh.setPrimaryStyleName(WEATHER + "-refresh");
-        refresh.setIcon(new FileResource(new File("./src/main/resources/refreshNew.png")));
+        refresh.setIcon(new FileResource(new File("./src/main/resources/refresh.png")));
 
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");
         refresh.addClickListener((Button.ClickListener) event -> new Thread(() -> {
                     logger.debug(new Object() {
                     }.getClass().getEnclosingMethod().getName() + " : new thread handler was started button=Обновить in WeatherPanel");
+                    //create ProgressBar and set instead of button
                     ProgressBar progressBar = new ProgressBar();
                     progressBar.setValue(0.0f);
                     progressBar.setPrimaryStyleName("progressBar");
@@ -97,6 +104,8 @@ public class WeatherPanel extends Panel {
                     verticalLayout.addComponent(progressBar);
                     logger.debug(new Object() {
                     }.getClass().getEnclosingMethod().getName() + " :  progressBar  was initialized and button was removed ");
+
+                    //getting temperature for selected city
                     Temperature temperatureNew;
                     try {
                         temperatureNew = httpTemperature.getTemperature(comboBox.getSelectedItem().get(), progressBar);
@@ -119,16 +128,20 @@ public class WeatherPanel extends Panel {
                     }.getClass().getEnclosingMethod().getName() + " : temperature was gotten");
                     progressBar.setValue(90.0f);
 
+                    //set values
+                    assert temperatureNew != null;
                     labelCurrent.setValue(CURRENT_WEATHER + temperatureNew.getCurrent());
                     labelTomorrow.setValue(TOMORROW_WEATHER + temperatureNew.getTomorrow());
                     logger.debug(new Object() {
                     }.getClass().getEnclosingMethod().getName() + " : temperature was set current=" + temperatureNew.getCurrent() + "tomorrow=" + temperatureNew.getTomorrow());
 
+                    //refresh date on Page
                     context.refreshDate();
                     logger.debug(new Object() {
                     }.getClass().getEnclosingMethod().getName() + " : date was refreshed");
                     progressBar.setValue(100.0f);
 
+                    //returned button
                     verticalLayout.removeComponent(progressBar);
                     verticalLayout.addComponent(refresh);
                     logger.debug(new Object() {

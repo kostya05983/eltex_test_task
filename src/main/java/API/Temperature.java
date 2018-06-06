@@ -4,7 +4,7 @@ public class Temperature {
     private String current;
     private String tomorrow;
 
-    public Temperature(String current, String tomorrow) {
+    Temperature(String current, String tomorrow) {
         this.current = current;
         this.tomorrow = tomorrow;
     }

@@ -1,6 +1,6 @@
 package API;
 
-import CenterBank.ResponseExchangeRates;
+import API.CenterBank.ResponseExchangeRates;
 import com.google.gson.Gson;
 import com.vaadin.ui.ProgressBar;
 import org.apache.logging.log4j.LogManager;
@@ -11,22 +11,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpExchangeRates {
-    private final String GET_DATA = "https://www.cbr-xml-daily.ru/daily_json.js";
+    private final String GET_DATA = "https://www.cbr-xml-daily.ru/daily_json.js";//request
     private HttpURLConnection httpURLConnection;
     private final Logger logger = LogManager.getLogger(HttpExchangeRates.class);
 
+    //Method for getting Rates for test
     public Rates getRates() {
         try {
+            //openConnection
             URL url = new URL(GET_DATA);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
 
+            //getting Data
             byte[] result = httpURLConnection.getInputStream().readAllBytes();
             String response = new String(result);
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : response was gotten");
 
+            //parse Data
             Gson gson = new Gson();
             ResponseExchangeRates responseExchangeRates = gson.fromJson(response, ResponseExchangeRates.class);
             logger.debug(new Object() {
@@ -46,7 +50,9 @@ public class HttpExchangeRates {
         return null;
     }
 
+    //Method for getting Rates
     public Rates getRates(ProgressBar progressBar) {
+        //open Connection
         try {
             URL url = new URL(GET_DATA);
             httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -54,12 +60,14 @@ public class HttpExchangeRates {
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
 
+            //get Data
             byte[] result = httpURLConnection.getInputStream().readAllBytes();
             String response = new String(result);
             progressBar.setValue(40.0f);
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : response was gotten");
 
+            //parse Data
             Gson gson = new Gson();
             ResponseExchangeRates responseExchangeRates = gson.fromJson(response, ResponseExchangeRates.class);
             progressBar.setValue(80.0f);

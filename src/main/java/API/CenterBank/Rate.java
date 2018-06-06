@@ -1,4 +1,4 @@
-package CenterBank;
+package API.CenterBank;
 
 public class Rate {
     private String ID;

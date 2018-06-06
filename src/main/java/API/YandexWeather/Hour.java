@@ -1,6 +1,10 @@
-package YandexWeather;
+package API.YandexWeather;
 
-public class Fact {
+//class made with Documentation
+//https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/
+public class Hour {
+    private int hour;
+    private int hour_ts;
     private int temp;
     private int feels_like;
     private String icon;
@@ -11,17 +15,20 @@ public class Fact {
     private int pressure_mm;
     private int pressure_pa;
     private int humidity;
-    private String dayTime;
-    private boolean polar;
-    private String season;
+    private int prec_mm;
+    private int prec_period;
     private int prec_type;
     private double prec_strength;
-    private double cloudness;
-    private int obs_time;
+    private int cloudness;
+    private boolean fallback_temp;
+    private boolean fallback_prec;
 
-    public Fact(int temp, int feels_like, String icon, String condition, double wind_speed, double wind_gust,
-                String wind_dir, int pressure_mm, int pressure_pa, int humidity, String dayTime, boolean polar,
-                String season, int prec_type, double prec_strength, double cloudness, int obs_time) {
+    public Hour(int hour, int hour_ts, int temp, int feels_like, String icon,
+                String condition, double wind_speed, double wind_gust, String wind_dir, int pressure_mm,
+                int pressure_pa, int humidity, int prec_mm, int prec_period, int prec_type, double prec_strength,
+                int cloudness, boolean fallback_temp, boolean fallback_prec) {
+        this.hour = hour;
+        this.hour_ts = hour_ts;
         this.temp = temp;
         this.feels_like = feels_like;
         this.icon = icon;
@@ -32,13 +39,29 @@ public class Fact {
         this.pressure_mm = pressure_mm;
         this.pressure_pa = pressure_pa;
         this.humidity = humidity;
-        this.dayTime = dayTime;
-        this.polar = polar;
-        this.season = season;
+        this.prec_mm = prec_mm;
+        this.prec_period = prec_period;
         this.prec_type = prec_type;
         this.prec_strength = prec_strength;
         this.cloudness = cloudness;
-        this.obs_time = obs_time;
+        this.fallback_temp = fallback_temp;
+        this.fallback_prec = fallback_prec;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getHour_ts() {
+        return hour_ts;
+    }
+
+    public void setHour_ts(int hour_ts) {
+        this.hour_ts = hour_ts;
     }
 
     public int getTemp() {
@@ -121,28 +144,20 @@ public class Fact {
         this.humidity = humidity;
     }
 
-    public String getDayTime() {
-        return dayTime;
+    public int getPrec_mm() {
+        return prec_mm;
     }
 
-    public void setDayTime(String dayTime) {
-        this.dayTime = dayTime;
+    public void setPrec_mm(int prec_mm) {
+        this.prec_mm = prec_mm;
     }
 
-    public boolean isPolar() {
-        return polar;
+    public int getPrec_period() {
+        return prec_period;
     }
 
-    public void setPolar(boolean polar) {
-        this.polar = polar;
-    }
-
-    public String getSeason() {
-        return season;
-    }
-
-    public void setSeason(String season) {
-        this.season = season;
+    public void setPrec_period(int prec_period) {
+        this.prec_period = prec_period;
     }
 
     public int getPrec_type() {
@@ -161,19 +176,27 @@ public class Fact {
         this.prec_strength = prec_strength;
     }
 
-    public double getCloudness() {
+    public int getCloudness() {
         return cloudness;
     }
 
-    public void setCloudness(double cloudness) {
+    public void setCloudness(int cloudness) {
         this.cloudness = cloudness;
     }
 
-    public int getObs_time() {
-        return obs_time;
+    public boolean isFallback_temp() {
+        return fallback_temp;
     }
 
-    public void setObs_time(int obs_time) {
-        this.obs_time = obs_time;
+    public void setFallback_temp(boolean fallback_temp) {
+        this.fallback_temp = fallback_temp;
+    }
+
+    public boolean isFallback_prec() {
+        return fallback_prec;
+    }
+
+    public void setFallback_prec(boolean fallback_prec) {
+        this.fallback_prec = fallback_prec;
     }
 }

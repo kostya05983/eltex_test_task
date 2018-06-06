@@ -29,19 +29,21 @@ public class VisistsPanel extends Panel {
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : initialized amountLabel with 0");
 
-        Thread thread = new Thread(new DaemonRefresh());
-        thread.setDaemon(true);
-        thread.start();
+        //started Daemon to update counting
+        DaemonRefresh daemonRefresh = new DaemonRefresh();
+        daemonRefresh.setDaemon(true);
+        daemonRefresh.start();
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : daemon started");
     }
 
-    private class DaemonRefresh implements Runnable {
+    private class DaemonRefresh extends Thread {
         private final Logger logger = LogManager.getLogger(DaemonRefresh.class);
 
         @Override
         public void run() {
-            while (true) {
+            while (isAlive()) {
+                //update counting from db
                 Connect connect = new Connect();
                 amountLabel.setValue(String.valueOf(connect.getVisists()));
                 logger.debug(new Object() {

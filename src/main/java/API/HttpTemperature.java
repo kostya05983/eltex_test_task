@@ -1,6 +1,6 @@
 package API;
 
-import YandexWeather.ResponseWeather;
+import API.YandexWeather.ResponseWeather;
 import com.google.gson.Gson;
 import com.vaadin.ui.ProgressBar;
 import org.apache.logging.log4j.LogManager;
@@ -13,19 +13,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpTemperature {
-    private final String KEY = "51813ee8-0cc6-4c81-8252-d6a34a242639";
-    private final String GET_DATA = "https://api.weather.yandex.ru/v1/forecast?limit=2" + "&extra=true&";
+    private final String KEY = "51813ee8-0cc6-4c81-8252-d6a34a242639";//key for API Yandex-WATHER
+    private final String GOOGLE_KEY = "AIzaSyCb_BYsT7FKxYtUSHWcB_lZE-aAYrX5wfk";
+    private final String REQUAST_GEOCORDINATING = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+    private final String GET_DATA = "https://api.weather.yandex.ru/v1/forecast?limit=2" + "&extra=true&";//request for yandex
     private final Logger logger = LogManager.getLogger(HttpTemperature.class);
     HttpURLConnection httpURLConnection;
 
-
+    //method for get Temperature for test
     public Temperature getTemperature(String location) {
+        //get coordinates from String
         Coordinate coordinate = getCoordinates(location);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : coordinate was gotten");
 
         Temperature temperature = null;
         try {
+            //open connection
             URL url = new URL(GET_DATA + "lat=" + coordinate.getX()
                     + "&lon=" + coordinate.getY());
 
@@ -34,12 +38,13 @@ public class HttpTemperature {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
             httpURLConnection.addRequestProperty("X-Yandex-API-Key", KEY);
 
+            //get Data
             InputStream inputStream = httpURLConnection.getInputStream();
             byte[] result = inputStream.readAllBytes();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : getResponse");
 
-
+            //parse Data
             String response = new String(result);
             Gson gson = new Gson();
             ResponseWeather responseWeather = gson.fromJson(response, ResponseWeather.class);
@@ -61,12 +66,16 @@ public class HttpTemperature {
         return temperature;
     }
 
+    //method for get Temperature
     public Temperature getTemperature(String location, ProgressBar progressBar) {
+        //get coordinates from String
         Coordinate coordinate = getCoordinates(location);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : coordinate was gotten");
         Temperature temperature = null;
         try {
+            //open connection
+            assert coordinate != null;
             URL url = new URL(GET_DATA + "lat=" + coordinate.getX()
                     + "&lon=" + coordinate.getY());
             progressBar.setValue(10.0f);
@@ -77,12 +86,14 @@ public class HttpTemperature {
             httpURLConnection.addRequestProperty("X-Yandex-API-Key", KEY);
             progressBar.setValue(30.0f);
 
+            //get Data
             InputStream inputStream = httpURLConnection.getInputStream();
             byte[] result = inputStream.readAllBytes();
             progressBar.setValue(40.0f);
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : getResponse");
 
+            //parse Data
             String response = new String(result);
             Gson gson = new Gson();
             ResponseWeather responseWeather = gson.fromJson(response, ResponseWeather.class);
@@ -105,19 +116,23 @@ public class HttpTemperature {
         return temperature;
     }
 
+    //method for get coordinate from String
     private Coordinate getCoordinates(String request) {
         HttpsURLConnection httpsURLConnection = null;
         try {
-            URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=" + request + "&key=AIzaSyCb_BYsT7FKxYtUSHWcB_lZE-aAYrX5wfk");
+            //open Connection
+            URL url = new URL(REQUAST_GEOCORDINATING + request + "&key=" + GOOGLE_KEY);
             httpsURLConnection = (HttpsURLConnection) url.openConnection();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
 
+            //getData
             InputStream inputStream = httpsURLConnection.getInputStream();
             byte[] result = inputStream.readAllBytes();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : getResponse");
 
+            //parse Data
             String response = new String(result);
             response = response.substring(response.indexOf("location"));
             response = response.substring(response.indexOf("{") + 1, response.indexOf("}"));
@@ -126,8 +141,8 @@ public class HttpTemperature {
             String y = response.substring(response.indexOf(":") + 1).replaceAll("\n", "").trim();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : response was parsed");
-            return new Coordinate(Double.parseDouble(x), Double.parseDouble(y));
 
+            return new Coordinate(Double.parseDouble(x), Double.parseDouble(y));
         } catch (IOException e) {
             e.printStackTrace();
             logger.error(new Object() {

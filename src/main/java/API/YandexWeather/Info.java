@@ -1,5 +1,7 @@
-package YandexWeather;
+package API.YandexWeather;
 
+//class made with Documentation
+//https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/
 public class Info {
     private double lat;
     private double lon;

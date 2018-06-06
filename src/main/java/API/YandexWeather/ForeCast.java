@@ -1,7 +1,9 @@
-package YandexWeather;
+package API.YandexWeather;
 
 import java.util.List;
 
+//class made with Documentation
+//https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/
 public class ForeCast {
     private String date;
     private int date_ts;

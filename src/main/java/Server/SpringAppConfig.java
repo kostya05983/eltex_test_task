@@ -24,7 +24,7 @@ public class SpringAppConfig implements WebApplicationInitializer {
     private final static Logger log = LogManager.getLogger(SpringAppConfig.class);
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         // Create the 'root' Spring application context
         log.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : create the root Spring application context");
@@ -36,6 +36,7 @@ public class SpringAppConfig implements WebApplicationInitializer {
         }.getClass().getEnclosingMethod().getName() + " : Manage the lifecycle of the root application context");
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
+        //add Vaadin Servlet
         ServletRegistration.Dynamic vaadin = servletContext
                 .addServlet("vaadin", new VaadinServlet());
         vaadin.setLoadOnStartup(1);

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
+
 
 
 public class Main {
@@ -18,44 +18,37 @@ public class Main {
     private static final int PORT = 8080;
     private final static String LOCATION = "src/main/webapp";
 
+    //started Tomcat
     public static void main(String[] args) throws Exception {
         String appBase = ".";
         Tomcat tomcat = new Tomcat();
+        log.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName()+":created Tomcat");
+
+        //set main Settings
         tomcat.setBaseDir(LOCATION);
         tomcat.setPort(PORT);
         tomcat.getHost().setAppBase(appBase);
         StandardContext ctx = (StandardContext) tomcat.addWebapp("/", appBase);
+        log.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName()+":location was established");
 
+        //set resource settings
         File additionWebInfClasses = new File("target/classes");
 
         WebResourceRoot resources = new StandardRoot(ctx);
         resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
                 additionWebInfClasses.getAbsolutePath(), "/"));
         ctx.setResources(resources);
+        log.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName()+":location of Resources was established");
 
         tomcat.start();
         tomcat.getServer().await();
+        log.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName()+":server was started");
     }
 
-    private static String createTempDir() {
-        try {
-            log.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : started to create tempDir for Tomcat");
-            File tempDir = File.createTempFile("tomcat", "." + PORT);
 
-            tempDir.delete();
-            tempDir.mkdir();
-            tempDir.deleteOnExit();
-            log.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : create directory");
-            return tempDir.getAbsolutePath();
-        } catch (IOException ex) {
-            log.error(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : " + ex.getMessage());
-            throw new RuntimeException(
-                    "Unable to create tempDir. java.io.tmpdir is set to " + System.getProperty("java.io.tmpdir"),
-                    ex
-            );
-        }
-    }
+
 }

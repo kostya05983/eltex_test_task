@@ -18,7 +18,7 @@ public class ExchangeRatesPanel extends Panel {
     private final String EUR = "EUR: ";
     private final Logger logger = LogManager.getLogger(ExchangeRatesPanel.class);
 
-    private HttpExchangeRates httpExchangeRates = new HttpExchangeRates();
+    private HttpExchangeRates httpExchangeRates = new HttpExchangeRates();//class for getting Rates
 
     private VaadinUI context;
     private VerticalLayout verticalLayout;
@@ -47,17 +47,21 @@ public class ExchangeRatesPanel extends Panel {
 
     }
 
+    //method for initLabels
     private void initLabels() {
+        //gets Rates
         Rates rates = httpExchangeRates.getRates();
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : Rates was gotten");
 
+        //set USD Rate
         labelUSD = new Label(USD + rates.getUSD());
         labelUSD.setPrimaryStyleName(EXCHANGE_RATES + "-labels");
         verticalLayout.addComponent(labelUSD);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : labelUSD was initialized");
 
+        //set EUR Rate
         labelEUR = new Label(EUR + rates.getEUR());
         labelEUR.setPrimaryStyleName(EXCHANGE_RATES + "-labels");
         verticalLayout.addComponent(labelEUR);
@@ -65,16 +69,18 @@ public class ExchangeRatesPanel extends Panel {
         }.getClass().getEnclosingMethod().getName() + " : labelEUR was initialized");
     }
 
+    //Method for Custom Button
     private void initButton() {
         Button refresh = new Button();
         refresh.setPrimaryStyleName(EXCHANGE_RATES + "-refresh");
-        refresh.setIcon(new FileResource(new File("./src/main/resources/refreshNew.png")));
+        refresh.setIcon(new FileResource(new File("./src/main/resources/refresh.png")));
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");
         refresh.addClickListener((Button.ClickListener) event -> new Thread(() -> {
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : thread handler started");
 
+            //set progressBar instead of button
             ProgressBar progressBar = new ProgressBar(0.0f);
             progressBar.setPrimaryStyleName("progressBar");
             verticalLayout.removeComponent(refresh);
@@ -83,6 +89,7 @@ public class ExchangeRatesPanel extends Panel {
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : add progressBar instead button");
 
+            //getting Rates
             Rates rates = httpExchangeRates.getRates();
             if (rates == null) {
                 logger.debug(new Object() {
@@ -95,16 +102,20 @@ public class ExchangeRatesPanel extends Panel {
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : get Rates");
 
+            //set Rates
+            assert rates != null;
             labelUSD.setValue(USD + rates.getUSD());
             labelEUR.setValue(EUR + rates.getEUR());
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : refresh labels");
 
+            //refresh date on page
             context.refreshDate();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : refresh Date");
             progressBar.setValue(100.0f);
 
+            //returned button
             verticalLayout.removeComponent(progressBar);
             verticalLayout.addComponent(refresh);
             logger.debug(new Object() {

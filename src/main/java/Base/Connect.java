@@ -14,8 +14,10 @@ public class Connect {
     private final String COLLECTION_NAME = "visits";
     private DB database;
 
+    //method for getting Visits
     public int getVisists() {
         MongoClient mongoClient = null;
+        //connect MongoClient
         try {
             mongoClient = new MongoClient();
             logger.debug(new Object() {
@@ -25,6 +27,7 @@ public class Connect {
             logger.error(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
         }
+        assert mongoClient != null;
         database = mongoClient.getDB(NAME_DATA_BASE);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : getDB name=" + NAME_DATA_BASE);
@@ -32,6 +35,7 @@ public class Connect {
         DBCollection collection = database.getCollection(COLLECTION_NAME);
         logger.debug("get collection collectionName=" + COLLECTION_NAME);
 
+        //get an object from db
         DBObject query = new BasicDBObject("_id", "visit");
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : queary with _id and visit");
@@ -45,8 +49,10 @@ public class Connect {
         return (int) dbObject.get("visit");
     }
 
+    //method for adding one visit to DB
     public void writeOneVisit() {
         MongoClient mongoClient = null;
+        //connect MongoClient
         try {
             mongoClient = new MongoClient();
             logger.debug(new Object() {
@@ -56,6 +62,7 @@ public class Connect {
             logger.error(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
         }
+        assert mongoClient != null;
         database = mongoClient.getDB(NAME_DATA_BASE);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : get DB dbName" + NAME_DATA_BASE);
@@ -64,6 +71,7 @@ public class Connect {
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : get collection collectionName" + COLLECTION_NAME);
 
+        //get visits from DB
         DBObject query = new BasicDBObject("_id", "visit");
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : create query");
@@ -73,6 +81,7 @@ public class Connect {
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : object was gotten");
 
+        //updating visits in DB
         DBObject newObject = new BasicDBObject("_id", "visit");
         ((BasicDBObject) newObject).append("visit", (int) dbObject.get("visit") + 1);
         collection.update(dbObject, newObject);

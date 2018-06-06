@@ -1,4 +1,4 @@
-package CenterBank;
+package API.CenterBank;
 
 public class ResponseExchangeRates {
     private String Date;
@@ -7,7 +7,7 @@ public class ResponseExchangeRates {
     private String Timestamp;
     private Valute Valute;
 
-    public ResponseExchangeRates(String date, String previousDate, String previousURL, String timestamp, CenterBank.Valute valute) {
+    public ResponseExchangeRates(String date, String previousDate, String previousURL, String timestamp, API.CenterBank.Valute valute) {
         Date = date;
         this.previousDate = previousDate;
         PreviousURL = previousURL;
@@ -47,11 +47,11 @@ public class ResponseExchangeRates {
         Timestamp = timestamp;
     }
 
-    public CenterBank.Valute getValute() {
+    public API.CenterBank.Valute getValute() {
         return Valute;
     }
 
-    public void setValute(CenterBank.Valute valute) {
+    public void setValute(API.CenterBank.Valute valute) {
         Valute = valute;
     }
 }

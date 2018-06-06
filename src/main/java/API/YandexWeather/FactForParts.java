@@ -1,36 +1,39 @@
-package YandexWeather;
+package API.YandexWeather;
 
-public class Hour {
-    private int hour;
-    private int hour_ts;
-    private int temp;
+//class made with Documentation
+//https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/
+public class FactForParts {
+    private int temp_min;
+    private int temp_max;
+    private int temp_avg;
     private int feels_like;
     private String icon;
     private String condition;
+    private String daytime;
+    private boolean polar;
     private double wind_speed;
     private double wind_gust;
     private String wind_dir;
     private int pressure_mm;
     private int pressure_pa;
     private int humidity;
-    private int prec_mm;
+    private double prec_mm;
     private int prec_period;
     private int prec_type;
     private double prec_strength;
-    private int cloudness;
-    private boolean fallback_temp;
-    private boolean fallback_prec;
+    private double cloudness;
 
-    public Hour(int hour, int hour_ts, int temp, int feels_like, String icon,
-                String condition, double wind_speed, double wind_gust, String wind_dir, int pressure_mm,
-                int pressure_pa, int humidity, int prec_mm, int prec_period, int prec_type, double prec_strength,
-                int cloudness, boolean fallback_temp, boolean fallback_prec) {
-        this.hour = hour;
-        this.hour_ts = hour_ts;
-        this.temp = temp;
+    public FactForParts(int temp_min, int temp_max, int temp_avg, int feels_like, String icon, String condition,
+                        String daytime, boolean polar, double wind_speed, double wind_gust, String wind_dir, int pressure_mm,
+                        int pressure_pa, int humidity, double prec_mm, int prec_period, int prec_type, double prec_strength, double cloudness) {
+        this.temp_min = temp_min;
+        this.temp_max = temp_max;
+        this.temp_avg = temp_avg;
         this.feels_like = feels_like;
         this.icon = icon;
         this.condition = condition;
+        this.daytime = daytime;
+        this.polar = polar;
         this.wind_speed = wind_speed;
         this.wind_gust = wind_gust;
         this.wind_dir = wind_dir;
@@ -42,32 +45,30 @@ public class Hour {
         this.prec_type = prec_type;
         this.prec_strength = prec_strength;
         this.cloudness = cloudness;
-        this.fallback_temp = fallback_temp;
-        this.fallback_prec = fallback_prec;
     }
 
-    public int getHour() {
-        return hour;
+    public int getTemp_min() {
+        return temp_min;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
+    public void setTemp_min(int temp_min) {
+        this.temp_min = temp_min;
     }
 
-    public int getHour_ts() {
-        return hour_ts;
+    public int getTemp_max() {
+        return temp_max;
     }
 
-    public void setHour_ts(int hour_ts) {
-        this.hour_ts = hour_ts;
+    public void setTemp_max(int temp_max) {
+        this.temp_max = temp_max;
     }
 
-    public int getTemp() {
-        return temp;
+    public int getTemp_avg() {
+        return temp_avg;
     }
 
-    public void setTemp(int temp) {
-        this.temp = temp;
+    public void setTemp_avg(int temp_avg) {
+        this.temp_avg = temp_avg;
     }
 
     public int getFeels_like() {
@@ -92,6 +93,22 @@ public class Hour {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public String getDaytime() {
+        return daytime;
+    }
+
+    public void setDaytime(String daytime) {
+        this.daytime = daytime;
+    }
+
+    public boolean isPolar() {
+        return polar;
+    }
+
+    public void setPolar(boolean polar) {
+        this.polar = polar;
     }
 
     public double getWind_speed() {
@@ -142,11 +159,11 @@ public class Hour {
         this.humidity = humidity;
     }
 
-    public int getPrec_mm() {
+    public double getPrec_mm() {
         return prec_mm;
     }
 
-    public void setPrec_mm(int prec_mm) {
+    public void setPrec_mm(double prec_mm) {
         this.prec_mm = prec_mm;
     }
 
@@ -174,27 +191,11 @@ public class Hour {
         this.prec_strength = prec_strength;
     }
 
-    public int getCloudness() {
+    public double getCloudness() {
         return cloudness;
     }
 
-    public void setCloudness(int cloudness) {
+    public void setCloudness(double cloudness) {
         this.cloudness = cloudness;
-    }
-
-    public boolean isFallback_temp() {
-        return fallback_temp;
-    }
-
-    public void setFallback_temp(boolean fallback_temp) {
-        this.fallback_temp = fallback_temp;
-    }
-
-    public boolean isFallback_prec() {
-        return fallback_prec;
-    }
-
-    public void setFallback_prec(boolean fallback_prec) {
-        this.fallback_prec = fallback_prec;
     }
 }

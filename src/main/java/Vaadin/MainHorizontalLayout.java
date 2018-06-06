@@ -7,14 +7,15 @@ import com.vaadin.ui.HorizontalLayout;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MainHorizontalLayout extends HorizontalLayout {
+class MainHorizontalLayout extends HorizontalLayout {
 
     private final Logger logger = LogManager.getLogger(MainHorizontalLayout.class);
     private WeatherPanel weatherPanel;
     private ExchangeRatesPanel exchangeRatesPanel;
     private VisistsPanel visistsPanel = new VisistsPanel("Количество посетителей");
 
-    public MainHorizontalLayout(VaadinUI context) {
+    MainHorizontalLayout(VaadinUI context) {
+        //create and init weather Panel
         weatherPanel = new WeatherPanel("Погода", context);
         logger.debug(new Object() {
         }.getClass().getEnclosingConstructor().getName() + " : create Weather Panel");
@@ -23,6 +24,7 @@ public class MainHorizontalLayout extends HorizontalLayout {
         logger.debug(new Object() {
         }.getClass().getEnclosingConstructor().getName() + " : init WeatherPanel");
 
+        //create and init exchangeRatesPanel
         exchangeRatesPanel = new ExchangeRatesPanel("Курсы валют", context);
         logger.debug(new Object() {
         }.getClass().getEnclosingConstructor().getName() + " : create exchangeRatesPanel");
@@ -31,6 +33,7 @@ public class MainHorizontalLayout extends HorizontalLayout {
         logger.debug(new Object() {
         }.getClass().getEnclosingConstructor().getName() + " : init ExchangeRatesPanel");
 
+        //create and init visitsPanel
         addComponent(visistsPanel);
         visistsPanel.init();
         logger.debug(new Object() {

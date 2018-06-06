@@ -4,7 +4,7 @@ public class Rates {
     private double USD;
     private double EUR;
 
-    public Rates(double USD, double EUR) {
+    Rates(double USD, double EUR) {
         this.USD = USD;
         this.EUR = EUR;
     }
