@@ -27,10 +27,13 @@ public class VaadinUI extends UI {
     @Override
     protected void init(VaadinRequest request) {
         //load styles
+        System.out.println(Page.getCurrent().getWebBrowser().getScreenHeight());
+        System.out.println(Page.getCurrent().getWebBrowser().getScreenWidth());
         try {
             FileInputStream fileInputStream = new FileInputStream("./src/main/resources/style.css");
             byte[] file = fileInputStream.readAllBytes();
             Page.getCurrent().getStyles().add(new String(file));
+            JavaScript.getCurrent().execute("<script src=\"//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js\" ></script>");
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
         } catch (IOException e) {
@@ -77,6 +80,7 @@ public class VaadinUI extends UI {
 
         //create ip label and init it
         ipLabel = new Label();
+        ipLabel.setSizeUndefined();
         ipLabel.setPrimaryStyleName(VAADINUI + "-ipLabel");
         refreshIp();
         horizontalLayoutDown.addComponent(ipLabel);

@@ -52,11 +52,15 @@ public class WeatherPanel extends Panel {
         cities.add("Новосибирск");
         cities.add("Москва");
         cities.add("Санкт-Петербург");
+        cities.add("Красноярск");
+        cities.add("Симферополь");
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : initialized list of cities");
 
         ///init ComboBox
         comboBox = new ComboBox<>();
+        //comboBox.setPrimaryStyleName(WEATHER+"-ComboBox");
+        comboBox.setStyleName("v-filterselect-input");
         comboBox.setItems(cities);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : set items in combobox");
@@ -89,7 +93,7 @@ public class WeatherPanel extends Panel {
 
         Button refresh = new Button();
         refresh.setPrimaryStyleName(WEATHER + "-refresh");
-        refresh.setIcon(new FileResource(new File("./src/main/resources/button_refresh.png")));
+        refresh.setIcon(new FileResource(new File("./src/main/resources/refreshing.png")));
 
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");

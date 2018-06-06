@@ -32,15 +32,15 @@ public class Main {
         log.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + ":location was established");
 
-        //set resource settings
-        File additionWebInfClasses = new File("target/classes");
-
-        WebResourceRoot resources = new StandardRoot(ctx);
-        resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
-                additionWebInfClasses.getAbsolutePath(), "/"));
-        ctx.setResources(resources);
-        log.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + ":location of Resources was established");
+//        //set resource settings
+//        File additionWebInfClasses = new File("target/classes");
+//
+//        WebResourceRoot resources = new StandardRoot(ctx);
+//        resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes",
+//                additionWebInfClasses.getAbsolutePath(), "/"));
+//        ctx.setResources(resources);
+//        log.debug(new Object() {
+//        }.getClass().getEnclosingMethod().getName() + ":location of Resources was established");
 
         tomcat.start();
         tomcat.getServer().await();
