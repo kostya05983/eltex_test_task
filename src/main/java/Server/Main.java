@@ -18,29 +18,29 @@ public class Main {
     public static void main(String[] args) throws Exception {
         String appBase = ".";
         Tomcat tomcat = new Tomcat();
-        log.debug("create Tomcat");
+        log.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : create Tomcat");
         tomcat.setBaseDir(createTempDir());
         tomcat.setPort(PORT);
         tomcat.getHost().setAppBase(appBase);
         tomcat.addWebapp("",appBase);
-        log.debug("set settings Tomcat");
+        log.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : set settings Tomcat");
 
         tomcat.start();
         tomcat.getServer().await();
-        log.debug("tomcat start");
+        log.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : tomcat start");
     }
 
     private static String createTempDir() {
         try {
-            log.debug("started to create tempDir for Tomcat");
+            log.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : started to create tempDir for Tomcat");
             File tempDir = File.createTempFile("tomcat","."+PORT);
             tempDir.delete();
             tempDir.mkdir();
             tempDir.deleteOnExit();
-            log.debug("create directory");
+            log.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : create directory");
             return tempDir.getAbsolutePath();
         } catch(IOException ex) {
-            log.error(ex.getMessage());
+            log.error(new Object(){}.getClass().getEnclosingMethod().getName()+" : "+ex.getMessage());
             throw new RuntimeException(
                     "Unable to create tempDir. java.io.tmpdir is set to " + System.getProperty("java.io.tmpdir"),
                     ex

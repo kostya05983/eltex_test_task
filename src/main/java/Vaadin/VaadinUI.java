@@ -30,58 +30,58 @@ public class VaadinUI extends UI{
         Page.Styles styles = Page.getCurrent().getStyles();
         styles.add(".vaadinUI-head { margin-left: 500px; }");
 
-        logger.debug("new user refresh database");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : new user refresh database");
         refresh();
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setPrimaryStyleName(VAADINUI);
         setContent(verticalLayout);
-        logger.debug("create main verticalLayout");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : create main verticalLayout");
 
         Label head = new Label("Тестовое сетевое приложение");
         head.setPrimaryStyleName(VAADINUI+"-head");
         verticalLayout.addComponent(head);
-        logger.debug("create head text");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : create head text");
 
         verticalLayout.addComponent(new MainHorizontalLayout(this));
-        logger.debug("created MainHorizontalLayout");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : created MainHorizontalLayout");
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
 
         dateLabel = new Label();
         refreshDate();
         horizontalLayout.addComponent(dateLabel);
-        logger.debug("init dateLabel");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : init dateLabel");
 
         ipLabel = new Label();
         refreshIp();
         horizontalLayout.addComponent(ipLabel);
-        logger.debug("init ipLabel");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : init ipLabel");
 
         verticalLayout.addComponent(horizontalLayout);
-        logger.debug("add down horizontalLayout");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : add down horizontalLayout");
 
         UI.getCurrent().setPollInterval( POLL_INTERVAL );
-        logger.debug("set PollInterval "+POLL_INTERVAL);
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : set PollInterval="+POLL_INTERVAL);
     }
 
     public void refreshDate() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy:HH:mm");
         dateLabel.setValue( DATE_CAPTION + simpleDateFormat.format(date));
-        logger.debug("get date" +simpleDateFormat.format(date));
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : get date " +simpleDateFormat.format(date));
     }
 
     private void refreshIp() {
         WebBrowser webBrowser = Page.getCurrent().getWebBrowser();
         ipLabel.setValue(webBrowser.getAddress());
-        logger.debug("get ipAdress" + webBrowser.getAddress());
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : get ipAdress " + webBrowser.getAddress());
     }
 
     private void refresh() {
         Connect connect = new Connect();
         connect.writeOneVisit();
-        logger.debug("writeOneVisit successful");
+        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : writeOneVisit successful");
     }
 
 }
