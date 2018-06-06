@@ -26,16 +26,18 @@ public class SpringAppConfig implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         // Create the 'root' Spring application context
-        log.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : create the root Spring application context");
+        log.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : create the root Spring application context");
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(SpringAppConfig.class);
 
         // Manage the lifecycle of the root application context
-        log.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : Manage the lifecycle of the root application context");
+        log.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : Manage the lifecycle of the root application context");
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
         ServletRegistration.Dynamic vaadin = servletContext
-                .addServlet("vaadin",new VaadinServlet());
+                .addServlet("vaadin", new VaadinServlet());
         vaadin.setLoadOnStartup(1);
         vaadin.addMapping("/*");
     }

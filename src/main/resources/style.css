@@ -48,7 +48,11 @@ margin-top: 20px;
     margin-left: 70px;
 }
 .progressBar {
-
+background-color: white;
+}
+.Notification {
+    background-color: black;
+    color: black;
 }
 .exchangeRates {
     background-color: #3094de;

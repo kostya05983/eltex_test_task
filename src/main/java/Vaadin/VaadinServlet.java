@@ -4,7 +4,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet(value = {"/"},asyncSupported = true)
+@WebServlet(value = {"/"}, asyncSupported = true)
 @VaadinServletConfiguration(
         productionMode = true,
         ui = VaadinUI.class

@@ -2,29 +2,28 @@ package Vaadin;
 
 
 import Base.Connect;
-import com.vaadin.annotations.StyleSheet;
-import com.vaadin.server.*;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
+import com.vaadin.server.WebBrowser;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class VaadinUI extends UI{
+public class VaadinUI extends UI {
 
+    private static Label dateLabel;
+    private static Label ipLabel;
     private final Logger logger = LogManager.getLogger(VaadinUI.class);
     private final String VAADINUI = "VAADINUI";
     private final String DATE_CAPTION = "Информация по состоянию на ";
     private final int POLL_INTERVAL = 100;
-    private static Label dateLabel;
-    private static Label ipLabel;
-
-
 
     @Override
     protected void init(VaadinRequest request) {
@@ -37,66 +36,88 @@ public class VaadinUI extends UI{
             e.printStackTrace();
         }
 
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : new user refresh database");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : new user refresh database");
         refresh();
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setPrimaryStyleName(VAADINUI);
 
         setContent(verticalLayout);
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : create main verticalLayout");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : create main verticalLayout");
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.setPrimaryStyleName(VAADINUI+"-HeadHorizontalLayout");
+        horizontalLayout.setPrimaryStyleName(VAADINUI + "-HeadHorizontalLayout");
         Label head = new Label("Тестовое сетевое приложение");
-        head.setPrimaryStyleName(VAADINUI+"-head");
+        head.setPrimaryStyleName(VAADINUI + "-head");
         horizontalLayout.addComponent(head);
         verticalLayout.addComponent(horizontalLayout);
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : create head text");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : create head text");
 
         MainHorizontalLayout mainHorizontalLayout = new MainHorizontalLayout(this);
-        mainHorizontalLayout.setPrimaryStyleName(VAADINUI+"-mainHorizontalLayout");
+        mainHorizontalLayout.setPrimaryStyleName(VAADINUI + "-mainHorizontalLayout");
         verticalLayout.addComponent(mainHorizontalLayout);
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : created MainHorizontalLayout");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : created MainHorizontalLayout");
 
         HorizontalLayout horizontalLayoutDown = new HorizontalLayout();
-        horizontalLayoutDown.setPrimaryStyleName(VAADINUI+"-down");
+        horizontalLayoutDown.setPrimaryStyleName(VAADINUI + "-down");
 
         dateLabel = new Label();
         refreshDate();
         horizontalLayoutDown.addComponent(dateLabel);
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : init dateLabel");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : init dateLabel");
 
         ipLabel = new Label();
-        ipLabel.setPrimaryStyleName(VAADINUI+"-ipLabel");
+        ipLabel.setPrimaryStyleName(VAADINUI + "-ipLabel");
         refreshIp();
         horizontalLayoutDown.addComponent(ipLabel);
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : init ipLabel");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : init ipLabel");
 
         verticalLayout.addComponent(horizontalLayoutDown);
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : add down horizontalLayout");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : add down horizontalLayout");
 
-        UI.getCurrent().setPollInterval( POLL_INTERVAL );
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : set PollInterval="+POLL_INTERVAL);
+        UI.getCurrent().setPollInterval(POLL_INTERVAL);
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : set PollInterval=" + POLL_INTERVAL);
     }
 
     public void refreshDate() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy:HH:mm");
-        dateLabel.setValue( DATE_CAPTION + simpleDateFormat.format(date));
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : get date " +simpleDateFormat.format(date));
+        dateLabel.setValue(DATE_CAPTION + simpleDateFormat.format(date));
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : get date " + simpleDateFormat.format(date));
     }
 
     private void refreshIp() {
         WebBrowser webBrowser = Page.getCurrent().getWebBrowser();
         ipLabel.setValue(webBrowser.getAddress());
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : get ipAdress " + webBrowser.getAddress());
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : get ipAdress " + webBrowser.getAddress());
     }
 
     private void refresh() {
         Connect connect = new Connect();
         connect.writeOneVisit();
-        logger.debug(new Object(){}.getClass().getEnclosingMethod().getName()+" : writeOneVisit successful");
+        logger.debug(new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : writeOneVisit successful");
+    }
+
+    public void showNotification(String description) {
+        UI.setCurrent(this);
+        Notification notification = new Notification(
+                "Ошибка:", description,
+                Notification.Type.ERROR_MESSAGE);
+        notification.setPosition(Position.MIDDLE_CENTER);
+        notification.setDelayMsec(5000);
+        notification.setStyleName("Notification");
+        notification.show(UI.getCurrent().getPage());
     }
 
 }
