@@ -33,8 +33,6 @@ ext {
     vaadinVersion = '8.4.3'
 }
 
-
-
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '8.5.31'

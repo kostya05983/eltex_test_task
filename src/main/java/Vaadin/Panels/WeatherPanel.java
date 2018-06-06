@@ -89,7 +89,7 @@ public class WeatherPanel extends Panel {
 
         Button refresh = new Button();
         refresh.setPrimaryStyleName(WEATHER + "-refresh");
-        refresh.setIcon(new FileResource(new File("./src/main/resources/refresh.png")));
+        refresh.setIcon(new FileResource(new File("./src/main/resources/button_refresh.png")));
 
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");
@@ -99,7 +99,9 @@ public class WeatherPanel extends Panel {
                     //create ProgressBar and set instead of button
                     ProgressBar progressBar = new ProgressBar();
                     progressBar.setValue(0.0f);
-                    progressBar.setPrimaryStyleName("progressBar");
+                    progressBar.setStyleName("progressBar-Weather");
+                    progressBar.setIndeterminate(true);
+                    progressBar.setSizeFull();
                     verticalLayout.removeComponent(refresh);
                     verticalLayout.addComponent(progressBar);
                     logger.debug(new Object() {

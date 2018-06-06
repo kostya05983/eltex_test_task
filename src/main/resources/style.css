@@ -32,11 +32,11 @@ margin-top: 20px;
     margin-top: 0.5%;
 }
 .VAADINUI-ipLabel {
-    margin-left: 1350px;
+    margin-left: 1300px;
 }
 .weather {
     background-color: #109c82;
-    margin-left: 260px;
+    margin-left: 300px;
     width: 250px;
     height: 250px;
     text-align: center;
@@ -47,8 +47,19 @@ margin-top: 20px;
 .weather-refresh {
     margin-left: 70px;
 }
-.progressBar {
-background-color: white;
+.progressBar-Weather {
+    background-color: white;
+    size: 64px;
+    margin-left: 85px;
+    margin-top: 20px;
+}
+.v-progressbar-wrapper {
+    height: 50px;
+}
+.progressBar-Rates {
+    background-color: white;
+    margin-left: 40px;
+    margin-top: 20px;
 }
 .Notification {
     background-color: black;
@@ -56,7 +67,7 @@ background-color: white;
 }
 .exchangeRates {
     background-color: #3094de;
-    margin-left: 260px;
+    margin-left: 300px;
     margin-top: 140px;
     width: 250px;
     height: 200px;
@@ -77,7 +88,7 @@ background-color: white;
 }
 .visitors {
     background-color: #2a3c52;
-    margin-left: 260px;
+    margin-left: 300px;
     margin-top: 140px;
     width: 250px;
     height: 100px;

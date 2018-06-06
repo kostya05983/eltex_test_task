@@ -11,27 +11,26 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 
 
-
 public class Main {
 
     private final static Logger log = LogManager.getLogger(Main.class);
     private static final int PORT = 8080;
     private final static String LOCATION = "src/main/webapp";
+    private final static String APP_BASE = ".";
 
     //started Tomcat
     public static void main(String[] args) throws Exception {
-        String appBase = ".";
         Tomcat tomcat = new Tomcat();
         log.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName()+":created Tomcat");
+        }.getClass().getEnclosingMethod().getName() + ":created Tomcat");
 
         //set main Settings
         tomcat.setBaseDir(LOCATION);
         tomcat.setPort(PORT);
-        tomcat.getHost().setAppBase(appBase);
-        StandardContext ctx = (StandardContext) tomcat.addWebapp("/", appBase);
+        tomcat.getHost().setAppBase(APP_BASE);
+        StandardContext ctx = (StandardContext) tomcat.addWebapp("/", APP_BASE);
         log.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName()+":location was established");
+        }.getClass().getEnclosingMethod().getName() + ":location was established");
 
         //set resource settings
         File additionWebInfClasses = new File("target/classes");
@@ -41,14 +40,13 @@ public class Main {
                 additionWebInfClasses.getAbsolutePath(), "/"));
         ctx.setResources(resources);
         log.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName()+":location of Resources was established");
+        }.getClass().getEnclosingMethod().getName() + ":location of Resources was established");
 
         tomcat.start();
         tomcat.getServer().await();
         log.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName()+":server was started");
+        }.getClass().getEnclosingMethod().getName() + ":server was started");
     }
-
 
 
 }

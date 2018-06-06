@@ -73,7 +73,7 @@ public class ExchangeRatesPanel extends Panel {
     private void initButton() {
         Button refresh = new Button();
         refresh.setPrimaryStyleName(EXCHANGE_RATES + "-refresh");
-        refresh.setIcon(new FileResource(new File("./src/main/resources/refresh.png")));
+        refresh.setIcon(new FileResource(new File("./src/main/resources/button_refresh.png")));
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");
         refresh.addClickListener((Button.ClickListener) event -> new Thread(() -> {
@@ -82,7 +82,8 @@ public class ExchangeRatesPanel extends Panel {
 
             //set progressBar instead of button
             ProgressBar progressBar = new ProgressBar(0.0f);
-            progressBar.setPrimaryStyleName("progressBar");
+            progressBar.setStyleName("progressBar-Rates");
+            progressBar.setIndeterminate(true);
             verticalLayout.removeComponent(refresh);
             verticalLayout.addComponent(progressBar);
             progressBar.setValue(10.0f);
@@ -90,7 +91,7 @@ public class ExchangeRatesPanel extends Panel {
             }.getClass().getEnclosingMethod().getName() + " : add progressBar instead button");
 
             //getting Rates
-            Rates rates = httpExchangeRates.getRates();
+            Rates rates = httpExchangeRates.getRates(progressBar);
             if (rates == null) {
                 logger.debug(new Object() {
                 }.getClass().getEnclosingMethod().getName() + " :  rates was not gotten");

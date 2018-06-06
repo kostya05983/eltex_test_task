@@ -1,10 +1,8 @@
 package Vaadin;
 
-
 import Base.Connect;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
@@ -23,6 +21,7 @@ public class VaadinUI extends UI {
     private final Logger logger = LogManager.getLogger(VaadinUI.class);
     private final String VAADINUI = "VAADINUI";//string for css
     private final String DATE_CAPTION = "Информация по состоянию на ";
+    private final String IP_CAPTION = "Ваш IP : ";
     private final int POLL_INTERVAL = 100;//interval of Update page ms
 
     @Override
@@ -33,7 +32,7 @@ public class VaadinUI extends UI {
             byte[] file = fileInputStream.readAllBytes();
             Page.getCurrent().getStyles().add(new String(file));
             logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName()+":styles was loaded");
+            }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +103,7 @@ public class VaadinUI extends UI {
 
     private void refreshIp() {
         WebBrowser webBrowser = Page.getCurrent().getWebBrowser();
-        ipLabel.setValue(webBrowser.getAddress());
+        ipLabel.setValue(IP_CAPTION + webBrowser.getAddress());
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : get ipAdress " + webBrowser.getAddress());
     }
