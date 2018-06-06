@@ -25,6 +25,8 @@ public class VaadinUI extends UI{
     private static Label dateLabel;
     private static Label ipLabel;
 
+
+
     @Override
     protected void init(VaadinRequest request) {
         Page.Styles styles = Page.getCurrent().getStyles();
