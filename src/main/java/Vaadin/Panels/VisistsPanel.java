@@ -19,8 +19,9 @@ public class VisistsPanel extends Panel {
     }
 
     public void init() {
-        amountLabel = new Label();
+        amountLabel = new Label("0");
         verticalLayout.addComponent(amountLabel);
+
 
         Thread thread = new Thread(new DaemonRefresh());
         thread.setDaemon(true);

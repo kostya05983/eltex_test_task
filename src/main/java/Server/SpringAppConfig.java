@@ -1,6 +1,8 @@
 package Server;
 
 import Vaadin.VaadinServlet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -13,32 +15,28 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"Vaadin"})
 @EnableMongoRepositories(value = "Base")
 public class SpringAppConfig implements WebApplicationInitializer {
+    private final static Logger log = LogManager.getLogger(SpringAppConfig.class);
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         // Create the 'root' Spring application context
+        log.debug("create the root Spring application context");
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(SpringAppConfig.class);
 
         // Manage the lifecycle of the root application context
+        log.debug("Manage the lifecycle of the root application context");
         servletContext.addListener(new ContextLoaderListener(rootContext));
-
-        // Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-
 
         ServletRegistration.Dynamic vaadin = servletContext
                 .addServlet("vaadin",new VaadinServlet());
         vaadin.setLoadOnStartup(1);
         vaadin.addMapping("/*");
-//        // Register and map the dispatcher servlet
-//        ServletRegistration.Dynamic dispatcher = servletContext
-//                .addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
-//        dispatcher.setLoadOnStartup(1);
-//        dispatcher.addMapping("/");
     }
 }
