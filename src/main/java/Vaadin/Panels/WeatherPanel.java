@@ -95,10 +95,12 @@ public class WeatherPanel extends Panel {
         Button refresh = new Button();
         refresh.setPrimaryStyleName(WEATHER + "-refresh");
         if(Page.getCurrent().getWebBrowser().getScreenHeight()<800)
-        refresh.setIcon(new FileResource(new File("./src/main/resources/refreshing.png")));
+        refresh.setIcon(new FileResource(new File("./resources/refreshing.png")));
 
-        if(Page.getCurrent().getWebBrowser().getScreenHeight()>800)
-            refresh.setIcon(new FileResource(new File("./src/main/resources/refresh_64.png")));
+
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()>800) {
+            refresh.setIcon(new FileResource(new File("./resources/refresh_64.png")));
+        }
 
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");

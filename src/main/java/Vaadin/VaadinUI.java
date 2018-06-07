@@ -1,16 +1,15 @@
 package Vaadin;
 
 import Base.Connect;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.WebBrowser;
+import com.vaadin.server.*;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,31 +25,25 @@ public class VaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
+        logger.info("new Client");
         //load styles
-        System.out.println(Page.getCurrent().getWebBrowser().getScreenHeight());
-        System.out.println(Page.getCurrent().getWebBrowser().getScreenWidth());
-        FileInputStream fileInputStream = null;
         try {
             int height = Page.getCurrent().getWebBrowser().getScreenHeight();
 
             if(height<800){
-                fileInputStream = new FileInputStream("./src/main/resources/style_800.css");
-                byte[] file = fileInputStream.readAllBytes();
+                byte[] file = this.getClass().getResourceAsStream("/style_800.css").readAllBytes();
                 Page.getCurrent().getStyles().add(new String(file));
                 logger.debug(new Object() {
                 }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
             }
 
             if(height >800){
-                fileInputStream = new FileInputStream("./src/main/resources/style.css");
-                byte[] file = fileInputStream.readAllBytes();
+                byte[] file = this.getClass().getResourceAsStream("/style.css").readAllBytes();
                 Page.getCurrent().getStyles().add(new String(file));
                 logger.debug(new Object() {
                 }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
             }
 
-            assert fileInputStream != null;
-            fileInputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
