@@ -6,13 +6,13 @@ The project was running with jdk 10.0.1 and gradle 4.6
 but it is compatible with jdk 9
 ### Prerequisites
 
-You need jdk 10.0.1, gradle 4.6
+You need Jdk 10.0.1, Gradle 4.6, MongoDB
 
 Gradle : https://gradle.org/install/
 
-jdk 10.0.1 : http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html
+Jdk 10.0.1 : http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html
 
-mongoDB : https://www.mongodb.com/
+MongoDB : https://www.mongodb.com/
 
 ### Settings
 You can change Port,baseDir,APP_BASE of Tomcat in src/main/java/Server/Main.java
