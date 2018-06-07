@@ -5,9 +5,9 @@ clone project
 
 you need jdk 10.0.1, gradle 4.6
 
-Gradle:https://gradle.org/install/
+Gradle : https://gradle.org/install/
 
-jdk 10.0.1:http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html
+jdk 10.0.1 : http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html
 
 ### Settings
 
@@ -36,6 +36,6 @@ Also you can configure your own Key in src/main/java/API/HttpTemperature for Yan
 ## Authors
 
 **kostya05983**
-you can write me on:kostya05983@mail.ru
+you can write me on: kostya05983@mail.ru
 
 
