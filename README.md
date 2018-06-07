@@ -24,7 +24,7 @@ You can configure the NameOfDB and CollectionName and Key(field) in src/main/jav
 Also you can configure your own Key in src/main/java/API/HttpTemperature for YandexWeather and Geocoordinating
 
 ### Installing
-Run the Base using MongoDB, the NameOfBase: see the previous paragraph
+Run the Base using MongoDB, the NameOfBase : see the previous paragraph
 
 Just run ./run.sh in bash
 
@@ -38,6 +38,6 @@ Just run ./run.sh in bash
 ## Authors
 
 **kostya05983(RustLife)**
-you can write me on: kostya05983@mail.ru
+you can write me on : kostya05983@mail.ru
 
 
