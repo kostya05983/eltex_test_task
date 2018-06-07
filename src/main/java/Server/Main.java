@@ -10,7 +10,7 @@ public class Main {
 
     private final static Logger log = LogManager.getLogger(Main.class);
     private static final int PORT = 8080;
-    private final static String LOCATION = "src/main/webapp";
+    private final static String LOCATION = "";
     private final static String APP_BASE = ".";
 
     //started Tomcat
@@ -23,7 +23,7 @@ public class Main {
         tomcat.setBaseDir(LOCATION);
         tomcat.setPort(PORT);
         tomcat.getHost().setAppBase(APP_BASE);
-        StandardContext ctx = (StandardContext) tomcat.addWebapp("", APP_BASE);
+        tomcat.addWebapp("", APP_BASE);
         log.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + ":location was established");
 

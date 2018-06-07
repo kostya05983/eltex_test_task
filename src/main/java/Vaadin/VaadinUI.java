@@ -1,15 +1,15 @@
 package Vaadin;
 
 import Base.Connect;
-import com.vaadin.server.*;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.WebBrowser;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,14 +30,14 @@ public class VaadinUI extends UI {
         try {
             int height = Page.getCurrent().getWebBrowser().getScreenHeight();
 
-            if(height<800){
+            if (height < 800) {
                 byte[] file = this.getClass().getResourceAsStream("/style_800.css").readAllBytes();
                 Page.getCurrent().getStyles().add(new String(file));
                 logger.debug(new Object() {
                 }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
             }
 
-            if(height >800){
+            if (height > 800) {
                 byte[] file = this.getClass().getResourceAsStream("/style.css").readAllBytes();
                 Page.getCurrent().getStyles().add(new String(file));
                 logger.debug(new Object() {

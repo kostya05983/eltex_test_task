@@ -1,10 +1,18 @@
+/*this style for Devices which height less 800 px*/
 
-
+/*Common settings*/
 .VAADINUI {
     background-color: #eceeef;
     color: black;
 
 }
+
+.Notification {
+    background-color: black;
+    color: black;
+}
+
+/*Settings for Head*/
 .VAADINUI-HeadHorizontalLayout {
     background-color: #297fbc;
     width: 110%;
@@ -16,12 +24,14 @@
     text-align: center;
     margin-left: -2.0833333333333335vw;
 }
+
 .VAADINUI-head {
     margin-top:  1.4518518518518516vh;
     color: white;
     font-size: 2vw;
 }
 
+/*Settings for MainHorizontalLayout*/
 .VAADINUI-mainHorizontalLayout {
     width: 110%;
     height: 84vh;
@@ -30,15 +40,8 @@
     margin-right: -4.166666666666667vw;
     background-color: rgba(253, 248, 252, 0.53);
 }
-.VAADINUI-down {
-    margin-top: 0.5%;
-    width: 100%;
-    font-size: 1vw;
-}
-.VAADINUI-ipLabel {
-    margin-left: 60vw;
 
-}
+/*Settings for Weather Panel*/
 .weather {
     background-color: #109c82;
     margin-left: 10.625vw;
@@ -52,49 +55,50 @@
 
     color: white;
 }
+
 .v-filterselect {
     max-width: 11.5vw;
     min-width: 11.5vw;
 
 }
+
 .v-filterselect-input {
 
     font-size: 1vw;
 }
+
 .v-filterselect-button {
 
 }
+
 .v-filterselect-suggestpopup {
     font-size: 1vw;
 }
+
 .weather-ComboBox {
     width: 12vw;
     height: 2vh;
 }
 
+/*Settings for Button*/
 .weather-refresh {
     margin-left: 40%;
     width: 6vw;
     min-height: 2vh;
     max-height: 6vh;
 }
+
 .progressBar-Weather {
     background-color: white;
     margin-left: 40%;
 
 }
+
 .v-progressbar-wrapper {
     height: 50px;
 }
-.progressBar-Rates {
-    background-color: white;
-    margin-left: 40%;
-    margin-top: 10%;
-}
-.Notification {
-    background-color: black;
-    color: black;
-}
+
+/*Settings for Panel Rates*/
 .exchangeRates {
     background-color: #3094de;
     margin-left: 15.625vw;
@@ -110,6 +114,8 @@
 .exchangeRates-labels {
 
 }
+
+/*Settings for Button*/
 .exchangeRates-refresh {
     padding-right: 30%;
     padding-left: 30%;
@@ -121,6 +127,14 @@
     size: 2vw;
 
 }
+
+.progressBar-Rates {
+    background-color: white;
+    margin-left: 40%;
+    margin-top: 10%;
+}
+
+/*settings for Panel Visitors*/
 .visitors {
     background-color: #2a3c52;
     margin-left: 15.625vw;
@@ -131,5 +145,16 @@
     max-height: 9.25925925925926vh;
     text-align: center;
     color: white;
+}
+
+/*settings for Down*/
+.VAADINUI-down {
+    margin-top: 0.5%;
+    width: 100%;
+    font-size: 1vw;
+}
+.VAADINUI-ipLabel {
+    margin-left: 60vw;
+
 }
 
