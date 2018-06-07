@@ -1,5 +1,6 @@
 package API.CenterBank;
 
+//https://www.cbr-xml-daily.ru/
 public class ResponseExchangeRates {
     private String Date;
     private String previousDate;

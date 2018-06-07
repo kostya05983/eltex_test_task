@@ -1,5 +1,6 @@
 package API.CenterBank;
 
+//https://www.cbr-xml-daily.ru/
 public class Valute {
     Rate AUD;
     Rate AZN;
