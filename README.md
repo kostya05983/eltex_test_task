@@ -34,6 +34,9 @@ Just run ./run.sh in bash
 * [Gradle](https://gradle.org/) - Dependency Management
 * [Spring](https://spring.io/) - use to configure Servlets
 * [Tomcat](http://tomcat.apache.org/) - web-server
+* [Yandex-Weather API](https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/) - use to get weather
+* [GeoCoding API](https://developers.google.com/maps/documentation/geocoding/intro?hl=ru) - use to get coordinates from String
+* [CenterBank API](https://www.cbr-xml-daily.ru/) - use to get Rates
 
 ## Authors
 
