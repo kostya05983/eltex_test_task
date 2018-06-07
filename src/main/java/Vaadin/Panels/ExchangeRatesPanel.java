@@ -73,7 +73,10 @@ public class ExchangeRatesPanel extends Panel {
     private void initButton() {
         Button refresh = new Button();
         refresh.setPrimaryStyleName(EXCHANGE_RATES + "-refresh");
-        refresh.setIcon(new FileResource(new File("./src/main/resources/button_refresh.png")));
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()<800)
+            refresh.setIcon(new FileResource(new File("./src/main/resources/refreshing.png")));
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()>800)
+            refresh.setIcon(new FileResource(new File("./src/main/resources/refresh_64.png")));
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");
         refresh.addClickListener((Button.ClickListener) event -> new Thread(() -> {

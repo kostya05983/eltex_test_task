@@ -1,14 +1,14 @@
 
 
 .VAADINUI {
-background-color: #eceeef;
-color: black;
+    background-color: #eceeef;
+    color: black;
 
 }
 .VAADINUI-HeadHorizontalLayout {
     background-color: #297fbc;
     width: 110%;
-    min-height: 6vh;
+    min-height: 4vh;
     max-height: 6.7037037037037033vh;
     margin-top: -3.2407407407407405vh;
     margin-bottom: 0;
@@ -17,9 +17,9 @@ color: black;
     margin-left: -2.0833333333333335vw;
 }
 .VAADINUI-head {
-margin-top:  1.4518518518518516vh;
+    margin-top:  1.4518518518518516vh;
     color: white;
-
+    font-size: 2vw;
 }
 
 .VAADINUI-mainHorizontalLayout {
@@ -36,18 +36,18 @@ margin-top:  1.4518518518518516vh;
     font-size: 1vw;
 }
 .VAADINUI-ipLabel {
-margin-left: 60vw;
+    margin-left: 60vw;
 
 }
 .weather {
     background-color: #109c82;
-    margin-left: 15.625vw;
+    margin-left: 10.625vw;
     margin-top: 12.962962962962962vh;
     font-size: 0.9vw;
-    min-width: 10.020833333333334vw;
+    min-width: 14.020833333333334vw;
     max-width: 14.020833333333334vw;
     min-height: 10vh;
-    max-height: 26.148148148148145vh;
+    max-height: 23.148148148148145vh;
     text-align: center;
 
     color: white;
@@ -76,7 +76,7 @@ margin-left: 60vw;
     margin-left: 40%;
     width: 6vw;
     min-height: 2vh;
-    max-height: 8vh;
+    max-height: 6vh;
 }
 .progressBar-Weather {
     background-color: white;
@@ -119,6 +119,7 @@ margin-left: 60vw;
     min-height: 2vh;
     max-height: 6vh;
     size: 2vw;
+
 }
 .visitors {
     background-color: #2a3c52;

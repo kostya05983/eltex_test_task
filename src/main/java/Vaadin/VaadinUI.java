@@ -29,13 +29,28 @@ public class VaadinUI extends UI {
         //load styles
         System.out.println(Page.getCurrent().getWebBrowser().getScreenHeight());
         System.out.println(Page.getCurrent().getWebBrowser().getScreenWidth());
+        FileInputStream fileInputStream = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream("./src/main/resources/style.css");
-            byte[] file = fileInputStream.readAllBytes();
-            Page.getCurrent().getStyles().add(new String(file));
-            JavaScript.getCurrent().execute("<script src=\"//cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js\" ></script>");
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
+            int height = Page.getCurrent().getWebBrowser().getScreenHeight();
+
+            if(height<800){
+                fileInputStream = new FileInputStream("./src/main/resources/style_800.css");
+                byte[] file = fileInputStream.readAllBytes();
+                Page.getCurrent().getStyles().add(new String(file));
+                logger.debug(new Object() {
+                }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
+            }
+
+            if(height >800){
+                fileInputStream = new FileInputStream("./src/main/resources/style.css");
+                byte[] file = fileInputStream.readAllBytes();
+                Page.getCurrent().getStyles().add(new String(file));
+                logger.debug(new Object() {
+                }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
+            }
+
+            assert fileInputStream != null;
+            fileInputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

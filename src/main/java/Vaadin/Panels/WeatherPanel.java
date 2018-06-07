@@ -4,6 +4,7 @@ import API.HttpTemperature;
 import API.Temperature;
 import Vaadin.VaadinUI;
 import com.vaadin.server.FileResource;
+import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -93,7 +94,11 @@ public class WeatherPanel extends Panel {
 
         Button refresh = new Button();
         refresh.setPrimaryStyleName(WEATHER + "-refresh");
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()<800)
         refresh.setIcon(new FileResource(new File("./src/main/resources/refreshing.png")));
+
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()>800)
+            refresh.setIcon(new FileResource(new File("./src/main/resources/refresh_64.png")));
 
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");
