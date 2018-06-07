@@ -1,5 +1,5 @@
 ## Getting Started
-clone project 
+Clone project 
 
 ### Prerequisites
 
