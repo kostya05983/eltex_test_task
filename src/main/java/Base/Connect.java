@@ -16,7 +16,7 @@ public class Connect {
     private DB database;
 
     //method for getting Visits
-    public int getVisists() {
+    public synchronized int getVisists() {
         MongoClient mongoClient = null;
         //connect MongoClient
         try {
@@ -51,7 +51,7 @@ public class Connect {
     }
 
     //method for adding one visit to DB
-    public void writeOneVisit() {
+    public synchronized void writeOneVisit() {
         MongoClient mongoClient = null;
         //connect MongoClient
         try {
