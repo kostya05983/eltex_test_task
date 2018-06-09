@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 
-public class HttpTemperature {
+public class HttpTemperature implements CustomInputStreamInterface{
     private final String KEY = "51813ee8-0cc6-4c81-8252-d6a34a242639";//key for API Yandex-WATHER
     private final String GOOGLE_KEY = "AIzaSyCb_BYsT7FKxYtUSHWcB_lZE-aAYrX5wfk";
     private final String REQUAST_GEOCORDINATING = "https://maps.googleapis.com/maps/api/geocode/json?address=";
@@ -40,7 +41,7 @@ public class HttpTemperature {
 
             //get Data
             InputStream inputStream = httpURLConnection.getInputStream();
-            byte[] result = inputStream.readAllBytes();
+            byte[] result = readAllBytes(inputStream);
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : getResponse");
 
@@ -88,7 +89,7 @@ public class HttpTemperature {
 
             //get Data
             InputStream inputStream = httpURLConnection.getInputStream();
-            byte[] result = inputStream.readAllBytes();
+            byte[] result = readAllBytes(inputStream);
             progressBar.setValue(40.0f);
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : getResponse");
@@ -128,7 +129,7 @@ public class HttpTemperature {
 
             //getData
             InputStream inputStream = httpsURLConnection.getInputStream();
-            byte[] result = inputStream.readAllBytes();
+            byte[] result = readAllBytes(inputStream);
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : getResponse");
 
@@ -156,5 +157,31 @@ public class HttpTemperature {
         return null;
     }
 
+    public byte[] readAllBytes(InputStream in) throws IOException {
+        byte[] buf = new byte[DEFAULT_BUFFER_SIZE];
+        int capacity = buf.length;
+        int nread = 0;
+        int n;
+        for (;;) {
+            // read to EOF which may read more or less than initial buffer size
+            while ((n = in.read(buf, nread, capacity - nread)) > 0)
+                nread += n;
+
+            // if the last call to read returned -1, then we're done
+            if (n < 0)
+                break;
+
+            // need to allocate a larger buffer
+            if (capacity <= MAX_BUFFER_SIZE - capacity) {
+                capacity = capacity << 1;
+            } else {
+                if (capacity == MAX_BUFFER_SIZE)
+                    throw new OutOfMemoryError("Required array size too large");
+                capacity = MAX_BUFFER_SIZE;
+            }
+            buf = Arrays.copyOf(buf, capacity);
+        }
+        return (capacity == nread) ? buf : Arrays.copyOf(buf, nread);
+    }
 
 }

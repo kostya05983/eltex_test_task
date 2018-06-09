@@ -1,5 +1,6 @@
 package Vaadin;
 
+import API.CustomInputStreamInterface;
 import Base.Connect;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
@@ -10,10 +11,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
-public class VaadinUI extends UI {
+public class VaadinUI extends UI implements CustomInputStreamInterface {
 
     private static Label dateLabel;
     private static Label ipLabel;
@@ -31,14 +34,14 @@ public class VaadinUI extends UI {
             int height = Page.getCurrent().getWebBrowser().getScreenHeight();
 
             if (height < 800) {
-                byte[] file = this.getClass().getResourceAsStream("/style_800.css").readAllBytes();
+                byte[] file = readAllBytes(this.getClass().getResourceAsStream("/style_800.css"));
                 Page.getCurrent().getStyles().add(new String(file));
                 logger.debug(new Object() {
                 }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
             }
 
             if (height > 800) {
-                byte[] file = this.getClass().getResourceAsStream("/style.css").readAllBytes();
+                byte[] file = readAllBytes(this.getClass().getResourceAsStream("/style.css"));
                 Page.getCurrent().getStyles().add(new String(file));
                 logger.debug(new Object() {
                 }.getClass().getEnclosingMethod().getName() + ":styles was loaded");
@@ -139,5 +142,33 @@ public class VaadinUI extends UI {
         notification.setStyleName("Notification");
         notification.show(UI.getCurrent().getPage());
     }
+
+    public byte[] readAllBytes(InputStream in) throws IOException {
+        byte[] buf = new byte[DEFAULT_BUFFER_SIZE];
+        int capacity = buf.length;
+        int nread = 0;
+        int n;
+        for (;;) {
+            // read to EOF which may read more or less than initial buffer size
+            while ((n = in.read(buf, nread, capacity - nread)) > 0)
+                nread += n;
+
+            // if the last call to read returned -1, then we're done
+            if (n < 0)
+                break;
+
+            // need to allocate a larger buffer
+            if (capacity <= MAX_BUFFER_SIZE - capacity) {
+                capacity = capacity << 1;
+            } else {
+                if (capacity == MAX_BUFFER_SIZE)
+                    throw new OutOfMemoryError("Required array size too large");
+                capacity = MAX_BUFFER_SIZE;
+            }
+            buf = Arrays.copyOf(buf, capacity);
+        }
+        return (capacity == nread) ? buf : Arrays.copyOf(buf, nread);
+    }
+
 
 }
