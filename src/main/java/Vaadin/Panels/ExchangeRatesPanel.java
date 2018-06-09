@@ -75,7 +75,7 @@ public class ExchangeRatesPanel extends Panel {
         refresh.setPrimaryStyleName(EXCHANGE_RATES + "-refresh");
 
         if(Page.getCurrent().getWebBrowser().getScreenHeight()<800)
-            refresh.setIcon(new FileResource(new File(this.getClass().getResource("/refreshing.png").getPath())));
+            refresh.setIcon(new FileResource(new File(this.getClass().getResource("/refresh_32.png").getPath())));
 
         if(Page.getCurrent().getWebBrowser().getScreenHeight()>800)
             refresh.setIcon(new FileResource(new File(this.getClass().getResource("/refresh_64.png").getPath())));
