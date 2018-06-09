@@ -125,8 +125,13 @@ public class VaadinUI extends UI implements CustomInputStreamInterface {
 
     //this method adds one user to base
     private void refresh() {
-        Connect connect = new Connect();
-        connect.writeOneVisit();
+        try {
+            Connect connect = new Connect();
+            connect.writeOneVisit();
+        }catch (Exception e) {
+            logger.error(new Object() {
+            }.getClass().getEnclosingMethod().getName()+e.getMessage());
+        }
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : writeOneVisit successful");
     }
