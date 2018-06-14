@@ -10,11 +10,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Properties;
 
 public class HttpExchangeRates {
-    private final static String GET_DATA;//request
+    private final static String RATES_REQUEST;//request
     private final static String CONFIGURATION_FILE = "/http_exchange_rates.properties";//имя файла с константами
     private HttpURLConnection httpURLConnection;
     private final static Logger logger = LogManager.getLogger(HttpExchangeRates.class);
@@ -32,14 +31,14 @@ public class HttpExchangeRates {
             throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
         }
 
-        GET_DATA = properties.getProperty("GET_DATA");
+        RATES_REQUEST = properties.getProperty("RATES_REQUEST");
     }
 
     //Method for getting Rates for test
     public Rates getRates() {
         try {
             //openConnection
-            URL url = new URL(GET_DATA);
+            URL url = new URL(RATES_REQUEST);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
@@ -74,7 +73,7 @@ public class HttpExchangeRates {
     public Rates getRates(ProgressBar progressBar) {
         //open Connection
         try {
-            URL url = new URL(GET_DATA);
+            URL url = new URL(RATES_REQUEST);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             progressBar.setValue(20.0f);
             logger.debug(new Object() {

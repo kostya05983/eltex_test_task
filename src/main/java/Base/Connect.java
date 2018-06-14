@@ -16,7 +16,7 @@ public class Connect {
     private final static String CONFIGURATION_FILE = "/data_base.properties";//имя файла с константами для базы данных
     private final static String NAME_DATA_BASE; //имя базы данных
     private final static String COLLECTION_NAME; //имя коллекции в этой базе
-    private final static String KEY; //имя столбца
+    private final static String FIELD_KEY; //имя столбца
     private DB database;
 
     //инициализация констант
@@ -33,7 +33,7 @@ public class Connect {
 
         NAME_DATA_BASE = properties.getProperty("NAME_DATA_BASE");
         COLLECTION_NAME = properties.getProperty("COLLECTION_NAME");
-        KEY = properties.getProperty("KEY");
+        FIELD_KEY = properties.getProperty("FIELD_KEY");
     }
 
     //method for getting Visits
@@ -58,9 +58,9 @@ public class Connect {
         logger.debug("get collection collectionName=" + COLLECTION_NAME);
 
         //get an object from db
-        DBObject query = new BasicDBObject("_id", KEY);
+        DBObject query = new BasicDBObject("_id", FIELD_KEY);
         logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : query with _id and" + KEY);
+        }.getClass().getEnclosingMethod().getName() + " : query with _id and" + FIELD_KEY);
         DBCursor cursor = collection.find(query);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : cursor was gotten");
@@ -68,7 +68,7 @@ public class Connect {
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : object was gotten");
 
-        return (int) dbObject.get(KEY);
+        return (int) dbObject.get(FIELD_KEY);
     }
 
     //method for adding one visit to DB
@@ -94,7 +94,7 @@ public class Connect {
         }.getClass().getEnclosingMethod().getName() + " : get collection collectionName" + COLLECTION_NAME);
 
         //get visits from DB
-        DBObject query = new BasicDBObject("_id", KEY);
+        DBObject query = new BasicDBObject("_id", FIELD_KEY);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : create query");
         DBCursor cursor = collection.find(query);
@@ -104,8 +104,8 @@ public class Connect {
         }.getClass().getEnclosingMethod().getName() + " : object was gotten");
 
         //updating visits in DB
-        DBObject newObject = new BasicDBObject("_id", KEY);
-        ((BasicDBObject) newObject).append(KEY, (int) dbObject.get(KEY) + 1);
+        DBObject newObject = new BasicDBObject("_id", FIELD_KEY);
+        ((BasicDBObject) newObject).append(FIELD_KEY, (int) dbObject.get(FIELD_KEY) + 1);
         collection.update(dbObject, newObject);
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : object was updated");

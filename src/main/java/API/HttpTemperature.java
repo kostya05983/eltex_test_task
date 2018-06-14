@@ -15,10 +15,10 @@ import java.util.Properties;
 
 public class HttpTemperature {
     private final static String CONFIGURATION_FILE = "/http_temperature.properties";//имя файла с константами
-    private final static String KEY;//key for API Yandex-WEATHER
+    private final static String YANDEX_KEY;//key for API Yandex-WEATHER
     private final static String GOOGLE_KEY;
     private final static String REQUEST_GEOCORDINATING;
-    private final static String GET_DATA;//request for yandex
+    private final static String YANDEX_WEATHER_REQUEST;//request for yandex
     private final static Logger logger = LogManager.getLogger(HttpTemperature.class);
     HttpURLConnection httpURLConnection;
 
@@ -35,10 +35,10 @@ public class HttpTemperature {
             throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
         }
 
-        KEY = properties.getProperty("KEY");
+        YANDEX_KEY = properties.getProperty("YANDEX_KEY");
         GOOGLE_KEY = properties.getProperty("GOOGLE_KEY");
         REQUEST_GEOCORDINATING = properties.getProperty("REQUEST_GEOCORDINATING");
-        GET_DATA = properties.getProperty("GET_DATA");
+        YANDEX_WEATHER_REQUEST = properties.getProperty("YANDEX_WEATHER_REQUEST");
 
 
     }
@@ -53,13 +53,13 @@ public class HttpTemperature {
         Temperature temperature = null;
         try {
             //open connection
-            URL url = new URL(GET_DATA + "lat=" + coordinate.getX()
+            URL url = new URL(YANDEX_WEATHER_REQUEST + "lat=" + coordinate.getX()
                     + "&lon=" + coordinate.getY());
 
             httpURLConnection = (HttpURLConnection) url.openConnection();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
-            httpURLConnection.addRequestProperty("X-Yandex-API-Key", KEY);
+            httpURLConnection.addRequestProperty("X-Yandex-API-Key", YANDEX_KEY);
 
             //get Data
             InputStream inputStream = httpURLConnection.getInputStream();
@@ -99,14 +99,14 @@ public class HttpTemperature {
         try {
             //open connection
             assert coordinate != null;
-            URL url = new URL(GET_DATA + "lat=" + coordinate.getX()
+            URL url = new URL(YANDEX_WEATHER_REQUEST + "lat=" + coordinate.getX()
                     + "&lon=" + coordinate.getY());
             progressBar.setValue(10.0f);
 
             httpURLConnection = (HttpURLConnection) url.openConnection();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
-            httpURLConnection.addRequestProperty("X-Yandex-API-Key", KEY);
+            httpURLConnection.addRequestProperty("X-Yandex-API-Key", YANDEX_KEY);
             progressBar.setValue(30.0f);
 
             //get Data
