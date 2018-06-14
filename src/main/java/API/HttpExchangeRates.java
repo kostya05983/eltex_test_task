@@ -11,11 +11,29 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Properties;
 
 public class HttpExchangeRates {
-    private final String GET_DATA = "https://www.cbr-xml-daily.ru/daily_json.js";//request
+    private final static String GET_DATA;//request
+    private final static String CONFIGURATION_FILE = "/http_exchange_rates.properties";//имя файла с константами
     private HttpURLConnection httpURLConnection;
-    private final Logger logger = LogManager.getLogger(HttpExchangeRates.class);
+    private final static Logger logger = LogManager.getLogger(HttpExchangeRates.class);
+
+
+    //инициализация констант
+    static {
+        Properties properties = new Properties();
+
+        try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            logger.error(new Object() {
+            }.getClass().getEnclosingMethod().getName()+":"+e.getMessage());
+            throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
+        }
+
+        GET_DATA = properties.getProperty("GET_DATA");
+    }
 
     //Method for getting Rates for test
     public Rates getRates() {

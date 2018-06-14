@@ -11,15 +11,37 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.Properties;
 
 public class HttpTemperature {
-    private final String KEY = "51813ee8-0cc6-4c81-8252-d6a34a242639";//key for API Yandex-WATHER
-    private final String GOOGLE_KEY = "AIzaSyCb_BYsT7FKxYtUSHWcB_lZE-aAYrX5wfk";
-    private final String REQUAST_GEOCORDINATING = "https://maps.googleapis.com/maps/api/geocode/json?address=";
-    private final String GET_DATA = "https://api.weather.yandex.ru/v1/forecast?limit=2" + "&extra=true&";//request for yandex
-    private final Logger logger = LogManager.getLogger(HttpTemperature.class);
+    private final static String CONFIGURATION_FILE = "/http_temperature.properties";//имя файла с константами
+    private final static String KEY;//key for API Yandex-WEATHER
+    private final static String GOOGLE_KEY;
+    private final static String REQUEST_GEOCORDINATING;
+    private final static String GET_DATA;//request for yandex
+    private final static Logger logger = LogManager.getLogger(HttpTemperature.class);
     HttpURLConnection httpURLConnection;
+
+
+    //инициализация констант
+    static {
+        Properties properties = new Properties();
+
+        try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            logger.error(new Object() {
+            }.getClass().getEnclosingMethod().getName()+":"+e.getMessage());
+            throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
+        }
+
+        KEY = properties.getProperty("KEY");
+        GOOGLE_KEY = properties.getProperty("GOOGLE_KEY");
+        REQUEST_GEOCORDINATING = properties.getProperty("REQUEST_GEOCORDINATING");
+        GET_DATA = properties.getProperty("GET_DATA");
+
+
+    }
 
     //method for get Temperature for test
     public Temperature getTemperature(String location) {
@@ -122,7 +144,7 @@ public class HttpTemperature {
         HttpsURLConnection httpsURLConnection = null;
         try {
             //open Connection
-            URL url = new URL(REQUAST_GEOCORDINATING + request + "&key=" + GOOGLE_KEY);
+            URL url = new URL(REQUEST_GEOCORDINATING + request + "&key=" + GOOGLE_KEY);
             httpsURLConnection = (HttpsURLConnection) url.openConnection();
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : openConnection");

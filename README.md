@@ -3,14 +3,14 @@ Clone the project from repository
 
 ###Test
 The project was running with jdk 10.0.1 and gradle 4.6
-but it is compatible with jdk 9
+but it is compatible with jdk 8
 ### Prerequisites
 
-You need Jdk 10.0.1, Gradle 4.6, MongoDB
+You need minimum Jdk 8, Gradle 4.6, MongoDB
 
 Gradle : https://gradle.org/install/
 
-Jdk 10.0.1 : http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html
+Jdk 8 : http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 MongoDB : https://www.mongodb.com/
 

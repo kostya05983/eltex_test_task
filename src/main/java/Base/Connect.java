@@ -5,15 +5,36 @@ import com.mongodb.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.UnknownHostException;
+import java.util.Properties;
 
 
 public class Connect {
-    private final Logger logger = LogManager.getLogger(Connect.class);
-    private final String NAME_DATA_BASE = "VisitsDB";
-    private final String COLLECTION_NAME = "visits";
-    private final String KEY = "visit";
+    private final static  Logger logger = LogManager.getLogger(Connect.class);
+    private final static String CONFIGURATION_FILE = "/data_base.properties";//имя файла с константами для базы данных
+    private final static String NAME_DATA_BASE; //имя базы данных
+    private final static String COLLECTION_NAME; //имя коллекции в этой базе
+    private final static String KEY; //имя столбца
     private DB database;
+
+    //инициализация констант
+    static {
+        Properties properties = new Properties();
+
+        try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            logger.error(new Object() {
+            }.getClass().getEnclosingMethod().getName()+":"+e.getMessage());
+            throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
+        }
+
+        NAME_DATA_BASE = properties.getProperty("NAME_DATA_BASE");
+        COLLECTION_NAME = properties.getProperty("COLLECTION_NAME");
+        KEY = properties.getProperty("KEY");
+    }
 
     //method for getting Visits
     public synchronized int getVisists() {
