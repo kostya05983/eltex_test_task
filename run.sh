@@ -1,2 +1,3 @@
-sudo gradle build
-sudo java -jar ./build/libs/TestTaskNew-1.0-SNAPSHOT-all.jar
+rm -r build
+gradle build
+java -jar ./build/libs/TestTaskNew-1.0-SNAPSHOT-all.jar

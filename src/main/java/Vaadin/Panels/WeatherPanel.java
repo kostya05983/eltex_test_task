@@ -1,20 +1,27 @@
 package Vaadin.Panels;
 
+import API.CustomInputStreamInterface;
 import API.HttpTemperature;
 import API.Temperature;
 import Vaadin.VaadinUI;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class WeatherPanel extends Panel {
+public class WeatherPanel extends Panel implements CustomInputStreamInterface {
     private final String WEATHER = "weather";
     private final String CURRENT_WEATHER = "Температура текущая :   ";
     private final String TOMORROW_WEATHER = "Температура на завтра : ";
@@ -94,12 +101,17 @@ public class WeatherPanel extends Panel {
 
         Button refresh = new Button();
         refresh.setPrimaryStyleName(WEATHER + "-refresh");
-        if(Page.getCurrent().getWebBrowser().getScreenHeight()<800)
-        refresh.setIcon(new FileResource(new File(this.getClass().getResource("/refresh_32.png").getPath())));
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()<800){
+            FileResource fileResource = new FileResource(new File(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
+                    +"/src/main/resources/images/refresh_32.png"));
+            refresh.setIcon(fileResource);
+        }
 
 
         if(Page.getCurrent().getWebBrowser().getScreenHeight()>800) {
-            refresh.setIcon(new FileResource(new File(this.getClass().getResource("/refresh_64.png").getPath())));
+            FileResource fileResource = new FileResource(new File(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
+                    +"/src/main/resources/images/refresh_64.png"));
+            refresh.setIcon(fileResource);
         }
 
         logger.debug(new Object() {
@@ -164,4 +176,30 @@ public class WeatherPanel extends Panel {
         verticalLayout.addComponent(refresh);
     }
 
+    public byte[] readAllBytes(InputStream in) throws IOException {
+        byte[] buf = new byte[DEFAULT_BUFFER_SIZE];
+        int capacity = buf.length;
+        int nread = 0;
+        int n;
+        for (;;) {
+            // read to EOF which may read more or less than initial buffer size
+            while ((n = in.read(buf, nread, capacity - nread)) > 0)
+                nread += n;
+
+            // if the last call to read returned -1, then we're done
+            if (n < 0)
+                break;
+
+            // need to allocate a larger buffer
+            if (capacity <= MAX_BUFFER_SIZE - capacity) {
+                capacity = capacity << 1;
+            } else {
+                if (capacity == MAX_BUFFER_SIZE)
+                    throw new OutOfMemoryError("Required array size too large");
+                capacity = MAX_BUFFER_SIZE;
+            }
+            buf = Arrays.copyOf(buf, capacity);
+        }
+        return (capacity == nread) ? buf : Arrays.copyOf(buf, nread);
+    }
 }

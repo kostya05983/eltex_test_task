@@ -5,6 +5,7 @@ import API.Rates;
 import Vaadin.VaadinUI;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,11 +75,17 @@ public class ExchangeRatesPanel extends Panel {
         Button refresh = new Button();
         refresh.setPrimaryStyleName(EXCHANGE_RATES + "-refresh");
 
-        if(Page.getCurrent().getWebBrowser().getScreenHeight()<800)
-            refresh.setIcon(new FileResource(new File(this.getClass().getResource("/refresh_32.png").getPath())));
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()<800) {
+            FileResource fileResource = new FileResource(new File(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
+                    +"/src/main/resources/images/refresh_64.png"));
+            refresh.setIcon(fileResource);
+        }
 
-        if(Page.getCurrent().getWebBrowser().getScreenHeight()>800)
-            refresh.setIcon(new FileResource(new File(this.getClass().getResource("/refresh_64.png").getPath())));
+        if(Page.getCurrent().getWebBrowser().getScreenHeight()>800) {
+            FileResource fileResource = new FileResource(new File(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
+                    +"/src/main/resources/images/refresh_64.png"));
+            refresh.setIcon(fileResource);
+        }
 
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : button was created");
