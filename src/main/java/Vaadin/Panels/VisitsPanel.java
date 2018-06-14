@@ -7,14 +7,14 @@ import com.vaadin.ui.VerticalLayout;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class VisistsPanel extends Panel {
+public class VisitsPanel extends Panel {
 
     private final String VISITORS = "visitors";
-    private final Logger logger = LogManager.getLogger(VisistsPanel.class);
+    private final Logger logger = LogManager.getLogger(VisitsPanel.class);
     private VerticalLayout verticalLayout;
     private Label amountLabel;
 
-    public VisistsPanel(String caption) {
+    public VisitsPanel(String caption) {
         super(caption);
         logger.debug(new Object() {
         }.getClass().getEnclosingConstructor().getName() + " : visitsPanel Constructor");

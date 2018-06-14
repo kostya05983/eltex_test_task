@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 
-public class HttpExchangeRates implements CustomInputStreamInterface{
+public class HttpExchangeRates {
     private final String GET_DATA = "https://www.cbr-xml-daily.ru/daily_json.js";//request
     private HttpURLConnection httpURLConnection;
     private final Logger logger = LogManager.getLogger(HttpExchangeRates.class);
@@ -27,7 +27,7 @@ public class HttpExchangeRates implements CustomInputStreamInterface{
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
 
             //getting Data
-            byte[] result = readAllBytes(httpURLConnection.getInputStream());
+            byte[] result = new CustomInputStream(httpURLConnection.getInputStream()).readAllBytes();
             String response = new String(result);
             logger.debug(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : response was gotten");
@@ -63,7 +63,7 @@ public class HttpExchangeRates implements CustomInputStreamInterface{
             }.getClass().getEnclosingMethod().getName() + " : openConnection");
 
             //get Data
-            byte[] result = readAllBytes(httpURLConnection.getInputStream());
+            byte[] result = new CustomInputStream(httpURLConnection.getInputStream()).readAllBytes();
             String response = new String(result);
             progressBar.setValue(40.0f);
             logger.debug(new Object() {
@@ -89,34 +89,5 @@ public class HttpExchangeRates implements CustomInputStreamInterface{
         }
         return null;
     }
-
-    public byte[] readAllBytes(InputStream in) throws IOException {
-        byte[] buf = new byte[DEFAULT_BUFFER_SIZE];
-        int capacity = buf.length;
-        int nread = 0;
-        int n;
-        for (;;) {
-            // read to EOF which may read more or less than initial buffer size
-            while ((n = in.read(buf, nread, capacity - nread)) > 0)
-                nread += n;
-
-            // if the last call to read returned -1, then we're done
-            if (n < 0)
-                break;
-
-            // need to allocate a larger buffer
-            if (capacity <= MAX_BUFFER_SIZE - capacity) {
-                capacity = capacity << 1;
-            } else {
-                if (capacity == MAX_BUFFER_SIZE)
-                    throw new OutOfMemoryError("Required array size too large");
-                capacity = MAX_BUFFER_SIZE;
-            }
-            buf = Arrays.copyOf(buf, capacity);
-        }
-        return (capacity == nread) ? buf : Arrays.copyOf(buf, nread);
-    }
-
-
 
 }
