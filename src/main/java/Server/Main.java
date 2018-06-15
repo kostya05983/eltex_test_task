@@ -33,8 +33,7 @@ public class Main {
         try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            log.error(new Object() {
-            }.getClass().getSimpleName() + ":" + e.getMessage());
+            log.error(e.getMessage());
             throw new RuntimeException("Не удалось прочитать файл " + CONFIGURATION_FILE, e);
         }
 
@@ -52,8 +51,7 @@ public class Main {
 
         LOCATION = properties.getProperty("LOCATION");
         APP_BASE = properties.getProperty("APP_BASE");
-        log.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getSimpleName() + " : константы проинициализированны\nLOCATION=" + LOCATION + "\nAPP_BASE=" + APP_BASE + "\nPORT=" + PORT);
+        log.debug(MarkerManager.getMarker("SERVER"), "Константы проинициализированны\nLOCATION=" + LOCATION + "\nAPP_BASE=" + APP_BASE + "\nPORT=" + PORT);
     }
 
     //запускаем Tomcat
@@ -65,12 +63,10 @@ public class Main {
         tomcat.setPort(PORT);
         tomcat.getHost().setAppBase(APP_BASE);
         tomcat.addWebapp("", APP_BASE);
-        log.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + ":Томкат сконфигурирован успешно");
+        log.debug("Томкат сконфигурирован успешно");
 
         tomcat.start();
         tomcat.getServer().await();
-        log.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + ":Сервер запущен");
+        log.debug("Сервер запущен");
     }
 }

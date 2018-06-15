@@ -23,8 +23,7 @@ public class VisitsPanel extends Panel {
      */
     public VisitsPanel(String caption, VaadinUI context) {
         super(caption);
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : конструктор visitsPanel с параметрами caption = " + caption + " VaadinUI = " + context);
+        logger.debug(MarkerManager.getMarker("SERVER"), "Конструктор visitsPanel с параметрами caption = " + caption + " VaadinUI = " + context);
         verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
         this.context = context;
@@ -49,8 +48,7 @@ public class VisitsPanel extends Panel {
 
         @Override
         public void run() {
-            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : демон запущен");
+            logger.debug(MarkerManager.getMarker("SERVER"), "Демон запущен");
 
             while (isAlive()) {
                 //обновляем счетчик из контекста
@@ -59,7 +57,7 @@ public class VisitsPanel extends Panel {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
+                    logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
                 }
             }
         }

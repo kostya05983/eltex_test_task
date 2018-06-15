@@ -28,14 +28,13 @@ public class HttpExchangeRates {
         try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
             throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
         }
 
         RATES_REQUEST = properties.getProperty("RATES_REQUEST");
 
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getSimpleName() + " : константы проинициализированны \nRATES_REQUEST=" + RATES_REQUEST);
+        logger.debug(MarkerManager.getMarker("SERVER"), "Константы проинициализированны \nRATES_REQUEST=" + RATES_REQUEST);
     }
 
     public HttpExchangeRates(VaadinUI context) {
@@ -61,22 +60,20 @@ public class HttpExchangeRates {
             if (responseExchangeRates == null || (responseExchangeRates.getValute() == null) ||
                     (responseExchangeRates.getValute().getUSD() == null || responseExchangeRates.getValute().getEUR() == null) ||
                     (responseExchangeRates.getValute().getUSD().getValue() == null && responseExchangeRates.getValute().getEUR().getValue() == null)) {
-                if(context!=null)
-                context.showNotification("Был изменен API,курсы валют неверны, обратитесь к администратору");
-                logger.error(MarkerManager.getMarker("SERVER"), new Object() {
-                }.getClass().getEnclosingMethod().getName() + " : изменен API");
+                if (context != null)
+                    context.showNotification("Был изменен API,курсы валют неверны, обратитесь к администратору");
+                logger.error(MarkerManager.getMarker("SERVER"), "Изменен API");
                 return new Rates(999, 999);
             }
 
             return new Rates(responseExchangeRates.getValute().getUSD().getValue(), responseExchangeRates.getValute().getEUR().getValue());
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"),  e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
         } finally {
             assert httpURLConnection != null;
             httpURLConnection.disconnect();
-            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : disconnect");
+            logger.debug(MarkerManager.getMarker("SERVER"), "Disconnect CenterBank");
         }
         return null;
     }
@@ -104,22 +101,20 @@ public class HttpExchangeRates {
             if (responseExchangeRates == null || (responseExchangeRates.getValute() == null) ||
                     (responseExchangeRates.getValute().getUSD() == null || responseExchangeRates.getValute().getEUR() == null) ||
                     (responseExchangeRates.getValute().getUSD().getValue() == null && responseExchangeRates.getValute().getEUR().getValue() == null)) {
-                if(context!=null)
-                context.showNotification("Был изменен API,курсы валют неверны, обратитесь к администратору");
-                logger.error(MarkerManager.getMarker("SERVER"), new Object() {
-                }.getClass().getEnclosingMethod().getName() + " : изменен API");
+                if (context != null)
+                    context.showNotification("Был изменен API,курсы валют неверны, обратитесь к администратору");
+                logger.error(MarkerManager.getMarker("SERVER"), "Изменен API");
                 return new Rates(999, 999);
             }
 
             return new Rates(responseExchangeRates.getValute().getUSD().getValue(), responseExchangeRates.getValute().getEUR().getValue());
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"),  e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
         } finally {
             assert httpURLConnection != null;
             httpURLConnection.disconnect();
-            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : disconnect");
+            logger.debug(MarkerManager.getMarker("SERVER"), "Disconnect CenterBank");
         }
         return null;
     }

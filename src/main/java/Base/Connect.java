@@ -28,7 +28,7 @@ public class Connect {
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
             throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
         }
 
@@ -36,8 +36,7 @@ public class Connect {
         COLLECTION_NAME = properties.getProperty("COLLECTION_NAME");
         FIELD_KEY = properties.getProperty("FIELD_KEY");
 
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getSimpleName() + " : константы проинициализированны\nNAME_DATA_BASE=" + NAME_DATA_BASE + "\nCOLLECTION_NAME=" + COLLECTION_NAME + "\nFIELD_KEY=" + FIELD_KEY);
+        logger.debug(MarkerManager.getMarker("SERVER"), "Константы проинициализированны\nNAME_DATA_BASE=" + NAME_DATA_BASE + "\nCOLLECTION_NAME=" + COLLECTION_NAME + "\nFIELD_KEY=" + FIELD_KEY);
     }
 
     /**
@@ -78,7 +77,7 @@ public class Connect {
             mongoClient = new MongoClient();
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"),  e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
         }
         assert mongoClient != null;
         database = mongoClient.getDB(NAME_DATA_BASE);

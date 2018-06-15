@@ -34,8 +34,7 @@ public class VaadinUI extends UI {
 
         //обновляем бд
         new Thread(this::refresh).start();
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : Новый пользователь");
+        logger.debug(MarkerManager.getMarker("SERVER"), "Новый пользователь");
 
         //создаем главную платформу
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -75,8 +74,7 @@ public class VaadinUI extends UI {
 
         //устанавливаем интервал обновления страницы
         UI.getCurrent().setPollInterval(POLL_INTERVAL);
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : интервал обновления равен = " + POLL_INTERVAL);
+        logger.debug(MarkerManager.getMarker("SERVER"), "Интервал обновления равен = " + POLL_INTERVAL);
     }
 
     /**
@@ -89,19 +87,17 @@ public class VaadinUI extends UI {
             if (height < 800) {
                 byte[] file = new CustomInputStream(this.getClass().getResourceAsStream("/style_800.css")).readAllBytes();
                 Page.getCurrent().getStyles().add(new String(file));
-                logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-                }.getClass().getEnclosingMethod().getName() + ": стили с разрешением по высоте больше 800 загружены");
+                logger.debug(MarkerManager.getMarker("SERVER"), "Cтили с разрешением по высоте больше 800 загружены");
             }
 
             if (height > 800) {
                 byte[] file = new CustomInputStream(this.getClass().getResourceAsStream("/style.css")).readAllBytes();
                 Page.getCurrent().getStyles().add(new String(file));
-                logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-                }.getClass().getEnclosingMethod().getName() + ": стили с разрешением по высоте меньше 800 загружены");
+                logger.debug(MarkerManager.getMarker("SERVER"), "Стили с разрешением по высоте меньше 800 загружены");
             }
 
         } catch (IOException e) {
-            logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
             e.printStackTrace();
         }
     }
@@ -113,8 +109,7 @@ public class VaadinUI extends UI {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy:HH:mm");
         dateLabel.setValue(DATE_CAPTION + simpleDateFormat.format(date));
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : получена дата = " + simpleDateFormat.format(date));
+        logger.debug(MarkerManager.getMarker("SERVER"), "получена дата = " + simpleDateFormat.format(date));
     }
 
     /**
@@ -123,8 +118,7 @@ public class VaadinUI extends UI {
     private void refreshIp() {
         WebBrowser webBrowser = Page.getCurrent().getWebBrowser();
         ipLabel.setValue(IP_CAPTION + webBrowser.getAddress());
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : получен ipAdress = " + webBrowser.getAddress());
+        logger.debug(MarkerManager.getMarker("SERVER"), "получен ipAdress = " + webBrowser.getAddress());
     }
 
     /**
@@ -137,12 +131,11 @@ public class VaadinUI extends UI {
             visits = connect.getVisits();
         } catch (Exception e) {
             showNotification("Не удалось подключиться к базе данных, обратитесь к администратору");
-            logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
             e.printStackTrace();
             return;
         }
-        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : writeOneVisit successful");
+        logger.debug(MarkerManager.getMarker("SERVER"), "Пользователь записан успешно");
     }
 
     /**
