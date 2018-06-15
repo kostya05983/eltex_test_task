@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 function switchFile {
 position=`expr index "$1" $" "`
 request=$1;

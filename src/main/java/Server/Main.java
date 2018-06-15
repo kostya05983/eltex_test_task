@@ -10,6 +10,9 @@ import java.io.IOException;
 
 
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Properties;
 
 public class Main {
@@ -33,6 +36,16 @@ public class Main {
         }
 
         PORT = Integer.parseInt(properties.getProperty("PORT"));
+
+        //проверка порта на занятость
+        try {
+            ServerSocket serverSocket = new ServerSocket(PORT);
+            serverSocket.close();
+        } catch (IOException e) {
+            log.error("Порт занят");
+            System.exit(0);
+        }
+
         LOCATION = properties.getProperty("LOCATION");
         APP_BASE = properties.getProperty("APP_BASE");
     }
