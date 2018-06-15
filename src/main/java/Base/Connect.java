@@ -40,11 +40,14 @@ public class Connect {
         FIELD_KEY = properties.getProperty("FIELD_KEY");
 
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getSimpleName() + " : константы проинициализированны NAME_DATA_BASE="+NAME_DATA_BASE+"COLLECTION_NAME="+COLLECTION_NAME+"FIELD_KEY="+FIELD_KEY);
+        }.getClass().getSimpleName() + " : константы проинициализированны\nNAME_DATA_BASE="+NAME_DATA_BASE+"\nCOLLECTION_NAME="+COLLECTION_NAME+"\nFIELD_KEY="+FIELD_KEY);
     }
 
-    //method for getting Visits
-    public synchronized int getVisists() {
+    /**
+     * метод для получения количества посетителей
+     * @return - возвращает количество посетителей
+     */
+    public synchronized int getVisits() {
         MongoClient mongoClient = null;
         //соединение MongoClient
         try {
@@ -67,7 +70,10 @@ public class Connect {
         return (int) dbObject.get(FIELD_KEY);
     }
 
-    //method for adding one visit to DB
+
+    /**
+     * Метод для добавления одного посетителя в бд
+     */
     public synchronized void writeOneVisit() {
         MongoClient mongoClient = null;
         //соединение с MongoClient

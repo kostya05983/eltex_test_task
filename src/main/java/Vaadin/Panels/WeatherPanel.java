@@ -26,10 +26,16 @@ public class WeatherPanel extends Panel {
     private VerticalLayout verticalLayout;
     private ComboBox<String> comboBox;
 
+
+    /**
+     *
+     * @param caption - заголовок блока погоды
+     * @param context - контекст
+     */
     public WeatherPanel(String caption, VaadinUI context) {
         super(caption);
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : конструктор WeatherPanel с параметрами caption"+caption+" VaadinUI="+context);
+        }.getClass().getEnclosingConstructor().getName() + " : конструктор WeatherPanel с параметрами caption = "+caption+" VaadinUI = "+context);
         verticalLayout = new VerticalLayout();
         this.context = context;
 
@@ -46,7 +52,9 @@ public class WeatherPanel extends Panel {
         setContent(verticalLayout);
     }
 
-    //method forcustom ComboBox
+    /**
+     * Метод инициализирующий comboBox
+     */
     private void initComboBox() {
         List<String> cities = new ArrayList<>();
         cities.add("Новосибирск");
@@ -63,10 +71,12 @@ public class WeatherPanel extends Panel {
         verticalLayout.addComponent(comboBox);
     }
 
-    //method for Customizing Panel
+    /**
+     * Метод для конфигурирования панели
+     */
     private void initWeather() {
         //получаем температуру
-        HttpTemperature httpTemperature = new HttpTemperature();
+        HttpTemperature httpTemperature = new HttpTemperature(context);
         Temperature temperature = httpTemperature.getTemperature("Новосибирск");
         if(temperature == null){
             context.showNotification("Не удалось получить температуру,проверьте интернет соединение");
@@ -74,7 +84,7 @@ public class WeatherPanel extends Panel {
             }.getClass().getEnclosingMethod().getName() + " : не удалось получить температуру");
         }else {
             logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : температура получена" + temperature);
+            }.getClass().getEnclosingMethod().getName() + " : температура получена " + temperature);
         }
 
         //устанавливаем текущую погоду
@@ -84,7 +94,7 @@ public class WeatherPanel extends Panel {
             labelCurrent = new Label(CURRENT_WEATHER + temperature.getCurrent());
             labelTomorrow = new Label(TOMORROW_WEATHER + temperature.getTomorrow());
             logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : Лейблы проинициализированы с погодой="+temperature);
+            }.getClass().getEnclosingMethod().getName() + " : Лейблы проинициализированы с погодой "+temperature);
         }
         else {
             labelCurrent = new Label(CURRENT_WEATHER);
@@ -139,8 +149,6 @@ public class WeatherPanel extends Panel {
                             logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
                             }.getClass().getEnclosingMethod().getName() + " : температура получена"+temperature);
                         }
-                        verticalLayout.removeComponent(progressBar);
-                        verticalLayout.addComponent(refresh);
                     } catch (NoSuchElementException ex) {
                         verticalLayout.removeComponent(progressBar);
                         verticalLayout.addComponent(refresh);

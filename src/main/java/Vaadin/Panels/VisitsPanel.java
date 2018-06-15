@@ -16,10 +16,16 @@ public class VisitsPanel extends Panel {
     private Label amountLabel;
     private VaadinUI context;
 
+
+    /**
+     *
+     * @param caption - заголовок блока посещений
+     * @param context - контекст
+     */
     public VisitsPanel(String caption, VaadinUI context) {
         super(caption);
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : конструктор visitsPanel с параметрами caption="+caption+" VaadinUI="+context);
+        }.getClass().getEnclosingConstructor().getName() + " : конструктор visitsPanel с параметрами caption = "+caption+" VaadinUI = "+context);
         verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
         this.context = context;
@@ -34,9 +40,11 @@ public class VisitsPanel extends Panel {
         DaemonRefresh daemonRefresh = new DaemonRefresh();
         daemonRefresh.setDaemon(true);
         daemonRefresh.start();
-
     }
 
+    /**
+     * класс обновляющий счетчик посетителей
+     */
     private class DaemonRefresh extends Thread {
         private final Logger logger = LogManager.getLogger(DaemonRefresh.class);
 

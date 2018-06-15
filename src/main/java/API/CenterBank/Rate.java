@@ -7,7 +7,7 @@ public class Rate {
     private String CharCode;
     private int Nominal;
     private String Name;
-    private double Value;
+    private Double Value;
     private double Previous;
 
     public Rate(String ID, String numCode, String charCode, int nominal, String name, double value, double previous) {
@@ -60,7 +60,7 @@ public class Rate {
         Name = name;
     }
 
-    public double getValue() {
+    public Double getValue() {
         return Value;
     }
 

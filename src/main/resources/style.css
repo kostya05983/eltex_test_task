@@ -82,7 +82,7 @@ margin-top:  1.4518518518518516vh;
 
 /*Settings for Button*/
 .weather-refresh {
-    margin-left: 40%;
+    margin-left: 35%;
 
 
     width: 6vw;
@@ -124,6 +124,8 @@ margin-top:  1.4518518518518516vh;
 
     min-height: 2vh;
     max-height: 6vh;
+
+    margin-left: 20%;
 
     size: 2vw;
 }

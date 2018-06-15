@@ -3,7 +3,7 @@ package API.YandexWeather;
 //class made with Documentation
 //https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/
 public class Fact {
-    private int temp;
+    private Integer temp;
     private int feels_like;
     private String icon;
     private String condition;
@@ -43,7 +43,7 @@ public class Fact {
         this.obs_time = obs_time;
     }
 
-    public int getTemp() {
+    public Integer getTemp() {
         return temp;
     }
 

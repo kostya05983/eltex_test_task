@@ -10,6 +10,10 @@ import org.apache.logging.log4j.MarkerManager;
 
 class MainHorizontalLayout extends HorizontalLayout {
 
+    /**
+     * Конструктор создает все панели
+     * @param context - контекст
+     */
     MainHorizontalLayout(VaadinUI context) {
         //конфигурируем weather Panel
         Logger logger = LogManager.getRootLogger();

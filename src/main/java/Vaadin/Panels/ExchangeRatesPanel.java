@@ -20,23 +20,29 @@ public class ExchangeRatesPanel extends Panel {
     private final String EUR = "EUR: ";
     private final Logger logger = LogManager.getRootLogger();
 
-    private HttpExchangeRates httpExchangeRates = new HttpExchangeRates();//класс для получения курсов валют
+    private HttpExchangeRates httpExchangeRates;//класс для получения курсов валют
 
     private VaadinUI context;
     private VerticalLayout verticalLayout;
     private Label labelUSD;
     private Label labelEUR;
 
+    /**
+     *
+     * @param caption - заголовок блока курсы валют
+     * @param context - контекст
+     */
     public ExchangeRatesPanel(String caption, VaadinUI context) {
         super(caption);
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : Exchange Rates конструктор с параметрами caption="+caption+"context="+context);
+        }.getClass().getEnclosingConstructor().getName() + " : Exchange Rates конструктор с параметрами caption = "+caption+"context = "+context);
         verticalLayout = new VerticalLayout();
         this.context = context;
     }
 
     public void init() {
         this.setPrimaryStyleName(EXCHANGE_RATES);
+        httpExchangeRates = new HttpExchangeRates(context);
         initLabels();
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
         }.getClass().getEnclosingMethod().getName() + " : Лейблы успешно проинициализированны");
@@ -46,7 +52,9 @@ public class ExchangeRatesPanel extends Panel {
         setContent(verticalLayout);
     }
 
-    //method for initLabels
+    /**
+     * метод инициализирующий лейблы
+     */
     private void initLabels() {
         //получаем курсы валют
         Rates rates = httpExchangeRates.getRates();
@@ -61,7 +69,7 @@ public class ExchangeRatesPanel extends Panel {
             labelUSD = new Label(USD + rates.getUSD());
             labelEUR = new Label(EUR + rates.getEUR());
             logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : Курсы валют получены, лейблы проинициализированны со значениями"+rates);
+            }.getClass().getEnclosingMethod().getName() + " : Курсы валют получены, лейблы проинициализированны со значениями "+rates);
         }
 
         labelUSD.setPrimaryStyleName(EXCHANGE_RATES + "-labels");
@@ -71,7 +79,10 @@ public class ExchangeRatesPanel extends Panel {
         verticalLayout.addComponent(labelEUR);
     }
 
-    //Method for Custom Button
+
+    /**
+     * метод для конфигурирования кнопки
+     */
     private void initButton() {
         Button refresh = new Button();
         refresh.setPrimaryStyleName(EXCHANGE_RATES + "-refresh");
@@ -118,8 +129,6 @@ public class ExchangeRatesPanel extends Panel {
                 labelUSD.setValue(USD + rates.getUSD());
                 labelEUR.setValue(EUR + rates.getEUR());
             }
-            verticalLayout.removeComponent(progressBar);
-            verticalLayout.addComponent(refresh);
 
             //обновление времени на странице
             context.refreshDate();

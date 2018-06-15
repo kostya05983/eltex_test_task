@@ -56,7 +56,7 @@ public class Main {
         LOCATION = properties.getProperty("LOCATION");
         APP_BASE = properties.getProperty("APP_BASE");
         log.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getSimpleName()+":LOCATION="+LOCATION+"APP_BASE="+APP_BASE+"PORT="+PORT);
+        }.getClass().getSimpleName()+" : константы проинициализированны\nLOCATION="+LOCATION+"\nAPP_BASE="+APP_BASE+"\nPORT="+PORT);
     }
 
     //запускаем Tomcat

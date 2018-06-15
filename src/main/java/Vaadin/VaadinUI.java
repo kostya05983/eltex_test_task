@@ -76,9 +76,12 @@ public class VaadinUI extends UI {
         //устанавливаем интервал обновления страницы
         UI.getCurrent().setPollInterval(POLL_INTERVAL);
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : интервал обновления равен=" + POLL_INTERVAL);
+        }.getClass().getEnclosingMethod().getName() + " : интервал обновления равен = " + POLL_INTERVAL);
     }
 
+    /**
+     * Метод для загрузки стилей в зависимости от разрешения
+     */
     private void loadStyles() {
         try {
             int height = Page.getCurrent().getWebBrowser().getScreenHeight();
@@ -102,37 +105,49 @@ public class VaadinUI extends UI {
         }
     }
 
+    /**
+     * Метод для обновления даты и времени
+     */
     public void refreshDate() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy:HH:mm");
         dateLabel.setValue(DATE_CAPTION + simpleDateFormat.format(date));
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : get date " + simpleDateFormat.format(date));
+        }.getClass().getEnclosingMethod().getName() + " : получена дата = " + simpleDateFormat.format(date));
     }
 
+    /**
+     * Метод для установки ip - адресса
+     */
     private void refreshIp() {
         WebBrowser webBrowser = Page.getCurrent().getWebBrowser();
         ipLabel.setValue(IP_CAPTION + webBrowser.getAddress());
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : get ipAdress " + webBrowser.getAddress());
+        }.getClass().getEnclosingMethod().getName() + " : получен ipAdress = " + webBrowser.getAddress());
     }
 
-    //this method adds one user to base
+    /**
+     * Метод который записывает нового пользователя
+     */
     private void refresh() {
         try {
             Connect connect = new Connect();
             connect.writeOneVisit();
-            visits = connect.getVisists();
+            visits = connect.getVisits();
         }catch (Exception e) {
             showNotification("Не удалось подключиться к базе данных, обратитесь к администратору");
             logger.error(MarkerManager.getMarker("SERVER"),new Object() {
             }.getClass().getEnclosingMethod().getName()+e.getMessage());
+            return;
         }
         logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
         }.getClass().getEnclosingMethod().getName() + " : writeOneVisit successful");
     }
 
-    //method for notification
+    /**
+     * Метод для оповещений
+     * @param description - сообщение
+     */
     public void showNotification(String description) {
         UI.setCurrent(this);
         Notification notification = new Notification(

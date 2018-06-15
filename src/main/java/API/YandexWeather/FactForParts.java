@@ -5,7 +5,7 @@ package API.YandexWeather;
 public class FactForParts {
     private int temp_min;
     private int temp_max;
-    private int temp_avg;
+    private Integer temp_avg;
     private int feels_like;
     private String icon;
     private String condition;
@@ -63,7 +63,7 @@ public class FactForParts {
         this.temp_max = temp_max;
     }
 
-    public int getTemp_avg() {
+    public Integer getTemp_avg() {
         return temp_avg;
     }
 
