@@ -27,9 +27,9 @@ public class Temperature {
 
     @Override
     public String toString() {
-        return "Temperature{"+
-                "current="+current
-                +", tomorrow="+tomorrow
-                +"}";
+        return "Temperature{" +
+                "current=" + current
+                + ", tomorrow=" + tomorrow
+                + "}";
     }
 }

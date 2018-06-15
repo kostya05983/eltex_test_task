@@ -25,7 +25,7 @@ public class CustomInputStream {
         int capacity = buf.length;
         int nread = 0;
         int n;
-        for (;;) {
+        for (; ; ) {
             // read to EOF which may read more or less than initial buffer size
             while ((n = inputStream.read(buf, nread, capacity - nread)) > 0)
                 nread += n;

@@ -18,14 +18,13 @@ public class VisitsPanel extends Panel {
 
 
     /**
-     *
      * @param caption - заголовок блока посещений
      * @param context - контекст
      */
     public VisitsPanel(String caption, VaadinUI context) {
         super(caption);
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : конструктор visitsPanel с параметрами caption = "+caption+" VaadinUI = "+context);
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+        }.getClass().getEnclosingConstructor().getName() + " : конструктор visitsPanel с параметрами caption = " + caption + " VaadinUI = " + context);
         verticalLayout = new VerticalLayout();
         setContent(verticalLayout);
         this.context = context;
@@ -50,7 +49,7 @@ public class VisitsPanel extends Panel {
 
         @Override
         public void run() {
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : демон запущен");
 
             while (isAlive()) {
@@ -60,7 +59,7 @@ public class VisitsPanel extends Panel {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    logger.error(MarkerManager.getMarker("SERVER"),new Object() {
+                    logger.error(MarkerManager.getMarker("SERVER"), new Object() {
                     }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
                 }
             }

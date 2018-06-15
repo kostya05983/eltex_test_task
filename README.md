@@ -1,12 +1,11 @@
 ## Getting Started
-Clone the project from repository 
-
+Склонируйте проект с репозитория 
 ###Test
-The project was running with jdk 10.0.1 and gradle 4.6
-but it is compatible with jdk 8
+Проект запускался с jdk 10.0.1 and gradle 4.6
+но совместим также начиная с jdk 8
 ### Prerequisites
 
-You need minimum Jdk 8, Gradle 4.6, MongoDB
+Вам необходимо минимально Jdk 8, Gradle 4.6, MongoDB
 
 Gradle : https://gradle.org/install/
 
@@ -15,32 +14,79 @@ Jdk 8 : http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2
 MongoDB : https://www.mongodb.com/
 
 ### Settings
-You can change Port,baseDir,APP_BASE of Tomcat in src/main/java/Server/Main.java
+Для изменения настроек необходимо запустить скрипт server.sh
 
-You can configure log4j in src/main/resources/log4j.properties
+Далее необходимо ввести команду set имя_константы значение
 
-You can configure the NameOfDB and CollectionName and Key(field) in src/main/java/Base/Connect
+Выбранная константа изменится.
 
-Also you can configure your own Key in src/main/java/API/HttpTemperature for YandexWeather and Geocoordinating
+Ниже перечислен список команд доступных в скрипте:
 
+set имя_константы значение - устанавливает значение выбранной константе
+
+help - просмотр основных команд скрипта
+
+help const - выводит информацию о константах
+
+show - показывает все значения констант
+
+run - удаляет превведущий билд, собирает и запускает сервер занова
+
+Доступные константы для изменения:
+
+PORT - номер порта
+
+APP_BASE - директория приложения
+
+LOCATION - расположение верхней директории приложения
+
+YANDEX_KEY - ключ для яндекс погоды
+
+GOOGLE_KEY - ключ для определения местоположения
+
+REQUEST_GEOCORDINATING - запрос для определения местоположения
+
+YANDEX_WEATHER_REQUEST - запрос для погоды от яндекса
+
+RATES_REQUEST - запрос для определения валют
+
+NAME_DATA_BASE - имя базы данных
+
+COLLECTION_NAME -имя коллекции
+
+FIELD_KEY - имя ключа
+
+Комментарий к настройке бд :
+
+Значение хранится в коллекции в которой два поля _id и значение ключа 
 ### Installing
-Run the Base using MongoDB, the NameOfBase : see the previous paragraph
+Включить базу данных
 
-Just run ./run.sh in bash
+Далее необходимо выполнить команды
+
+service mongod start
+
+mongo --host 127.0.0.1:27017
+
+use VisitsDB //при этом необходимо настроить бд
+
+Включить скрипт server.sh
+
+и написать run
 
 ## Built With
 
-* [Vaadin](https://vaadin.com/framework) - The web framework used
-* [Gradle](https://gradle.org/) - Dependency Management
-* [Spring](https://spring.io/) - use to configure Servlets
-* [Tomcat](http://tomcat.apache.org/) - web-server
-* [Yandex-Weather API](https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/) - use to get weather
-* [GeoCoding API](https://developers.google.com/maps/documentation/geocoding/intro?hl=ru) - use to get coordinates from String
-* [CenterBank API](https://www.cbr-xml-daily.ru/) - use to get Rates
+* [Vaadin](https://vaadin.com/framework) - используемый  web framework 
+* [Gradle](https://gradle.org/) - сборщик
+* [Spring](https://spring.io/) - используется для конфигурирования
+* [Tomcat](http://tomcat.apache.org/) - веб-сервер
+* [Yandex-Weather API](https://tech.yandex.ru/weather/doc/dg/concepts/forecast-response-test-docpage/) - используется для получения погоды
+* [GeoCoding API](https://developers.google.com/maps/documentation/geocoding/intro?hl=ru) - используетися для получения координат из строки
+* [CenterBank API](https://www.cbr-xml-daily.ru/) - используется для получения курса валют
 
 ## Authors
 
 **kostya05983(RustLife)**
-you can write me on : kostya05983@mail.ru
+Вы можете написать мне на почту : kostya05983@mail.ru
 
 

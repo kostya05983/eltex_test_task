@@ -82,7 +82,7 @@
 
 /*Settings for Button*/
 .weather-refresh {
-    margin-left: 40%;
+    margin-left: 35%;
     width: 6vw;
     min-height: 2vh;
     max-height: 6vh;
@@ -119,7 +119,7 @@
 .exchangeRates-refresh {
     min-width: 2vw;
     max-width: 6vw;
-
+    margin-left: 30%;
     min-height: 2vh;
     max-height: 6vh;
     size: 2vw;

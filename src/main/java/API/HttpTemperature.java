@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.MarkerManager;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -17,8 +16,7 @@ import java.net.URL;
 import java.util.Properties;
 
 public class HttpTemperature {
-    //private final static String CONFIGURATION_FILE = "/http_temperature.properties";//имя файла с константами
-    private final static String CONFIGURATION_FILE = "/home/kostya05983/lol/testtask/src/main/resources/http_temperature.properties";//имя файла с константами
+    private final static String CONFIGURATION_FILE = "/http_temperature.properties";//имя файла с константами
     private final static String YANDEX_KEY;//key for API Yandex-WEATHER
     private final static String GOOGLE_KEY;
     private final static String REQUEST_GEOCORDINATING;
@@ -28,16 +26,15 @@ public class HttpTemperature {
     private VaadinUI context;
 
 
-     // инициализация констант
+    // инициализация констант
     static {
         Properties properties = new Properties();
 
-        //try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
-        try (FileInputStream inputStream = new FileInputStream(CONFIGURATION_FILE)) {
+        try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
             properties.load(inputStream);
         } catch (IOException e) {
             logger.error(new Object() {
-            }.getClass().getEnclosingMethod().getName()+":"+e.getMessage());
+            }.getClass().getEnclosingMethod().getName() + ":" + e.getMessage());
             throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
         }
 
@@ -46,9 +43,9 @@ public class HttpTemperature {
         REQUEST_GEOCORDINATING = properties.getProperty("REQUEST_GEOCORDINATING");
         YANDEX_WEATHER_REQUEST = properties.getProperty("YANDEX_WEATHER_REQUEST");
 
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getSimpleName() + " : константы проинициализированны \nYANDEX_KEY="+YANDEX_KEY+"\nGOOGLE_KEY="+GOOGLE_KEY+
-                "\nREQUEST_GEOCORDINATING"+REQUEST_GEOCORDINATING+"\nYANDEX_WEATHER_REQUEST"+YANDEX_WEATHER_REQUEST);
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+        }.getClass().getSimpleName() + " : константы проинициализированны \nYANDEX_KEY=" + YANDEX_KEY + "\nGOOGLE_KEY=" + GOOGLE_KEY +
+                "\nREQUEST_GEOCORDINATING" + REQUEST_GEOCORDINATING + "\nYANDEX_WEATHER_REQUEST" + YANDEX_WEATHER_REQUEST);
     }
 
     public HttpTemperature(VaadinUI context) {
@@ -58,23 +55,24 @@ public class HttpTemperature {
 
     /**
      * Служит для получения температуры по названию города
+     *
      * @param location - название города
      * @return - возвращает Объект температуры
      */
     public Temperature getTemperature(String location) {
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : получение координат для "+location);
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : получение координат для " + location);
         //получаем координаты из строки
         Coordinate coordinate = getCoordinates(location);
-        if(coordinate == null) {
+        if (coordinate == null) {
             return null;
-        }else {
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : координаты получены "+coordinate);
+        } else {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : координаты получены " + coordinate);
         }
 
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : получение температуры для "+location);
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : получение температуры для " + location);
         Temperature temperature = null;
         try {
             //получаем температуру
@@ -87,8 +85,8 @@ public class HttpTemperature {
             InputStream inputStream = httpURLConnection.getInputStream();
             byte[] result = new CustomInputStream(inputStream).readAllBytes();
             String response = new String(result);
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : ответ яндекс погоды = "+response);
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : ответ яндекс погоды = " + response);
 
             //парсим
             Gson gson = new Gson();
@@ -97,25 +95,25 @@ public class HttpTemperature {
                     (responseWeather.getForecasts() == null || responseWeather.getForecasts().get(1) == null ||
                             responseWeather.getForecasts().get(1).getParts() == null || responseWeather.getForecasts().get(1).getParts().getDay() == null ||
                             responseWeather.getForecasts().get(1).getParts().getDay().getTemp_avg() == null))) {
-                                context.showNotification("Был изменен API,погода неверная, обратитесь к администратору");
-                                logger.error(MarkerManager.getMarker("SERVER"),new Object() {
-                                }.getClass().getEnclosingMethod().getName() + " : изменен API");
-                                return new Temperature("999","999");
-                            }
+                context.showNotification("Был изменен API,погода неверная, обратитесь к администратору");
+                logger.error(MarkerManager.getMarker("SERVER"), new Object() {
+                }.getClass().getEnclosingMethod().getName() + " : изменен API");
+                return new Temperature("999", "999");
+            }
 
             temperature = new Temperature("" + responseWeather.getFact().getTemp(),
                     "" + responseWeather.getForecasts().get(1).getParts().getDay().getTemp_avg());
 
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : температура получена "+temperature);
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : температура получена " + temperature);
         } catch (IOException e) {
             e.printStackTrace();
             logger.error(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
         } finally {
-            if( temperature!=null) {
+            if (temperature != null) {
                 httpURLConnection.disconnect();
-                logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+                logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
                 }.getClass().getEnclosingMethod().getName() + " : disconnect");
             }
         }
@@ -127,24 +125,25 @@ public class HttpTemperature {
 
     /**
      * Метод для получения температуры по названию города с использованием прогресс бара
-     * @param location - название города
+     *
+     * @param location    - название города
      * @param progressBar - прогресс бар для инкрементации значения
      * @return - возвращает объект температуры
      */
     public Temperature getTemperature(String location, ProgressBar progressBar) {
         //получаем координаты из строки
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : получение координат для "+location);
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : получение координат для " + location);
         Coordinate coordinate = getCoordinates(location);
-        if(coordinate == null) {
+        if (coordinate == null) {
             return null;
-        }else {
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : координаты получены "+coordinate);
+        } else {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : координаты получены " + coordinate);
         }
 
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : получение температуры для "+location);
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : получение температуры для " + location);
         Temperature temperature = null;
         try {
             //получаем температуру
@@ -160,8 +159,8 @@ public class HttpTemperature {
             byte[] result = new CustomInputStream(inputStream).readAllBytes();
             progressBar.setValue(40.0f);
             String response = new String(result);
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : ответ яндекс погоды = "+response);
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : ответ яндекс погоды = " + response);
 
             Gson gson = new Gson();
             ResponseWeather responseWeather = gson.fromJson(response, ResponseWeather.class);
@@ -172,23 +171,23 @@ public class HttpTemperature {
                             responseWeather.getForecasts().get(1).getParts() == null || responseWeather.getForecasts().get(1).getParts().getDay() == null ||
                             responseWeather.getForecasts().get(1).getParts().getDay().getTemp_avg() == null))) {
                 context.showNotification("Был изменен API,погода неверная, обратитесь к администратору");
-                logger.error(MarkerManager.getMarker("SERVER"),new Object() {
+                logger.error(MarkerManager.getMarker("SERVER"), new Object() {
                 }.getClass().getEnclosingMethod().getName() + " : изменен API");
-                return new Temperature("999","999");
+                return new Temperature("999", "999");
             }
 
             temperature = new Temperature("" + responseWeather.getFact().getTemp(),
                     "" + responseWeather.getForecasts().get(1).getParts().getDay().getTemp_avg());
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : температура получена "+temperature);
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : температура получена " + temperature);
 
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"),new Object() {
+            logger.error(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
         } finally {
             httpURLConnection.disconnect();
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : disconnect");
         }
 
@@ -198,7 +197,6 @@ public class HttpTemperature {
     //method for get coordinate from String
 
     /**
-     *
      * @param request - название локации
      * @return - возвращает объект координат города
      */
@@ -212,8 +210,8 @@ public class HttpTemperature {
             byte[] result = new CustomInputStream(inputStream).readAllBytes();
 
             String response = new String(result);
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : ответ geocoordinating = "+response);
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : ответ geocoordinating = " + response);
 
             response = response.substring(response.indexOf("location"));
             response = response.substring(response.indexOf("{") + 1, response.indexOf("}"));
@@ -224,12 +222,12 @@ public class HttpTemperature {
             return new Coordinate(Double.parseDouble(x), Double.parseDouble(y));
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"),new Object() {
+            logger.error(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
         } finally {
             assert httpsURLConnection != null;
             httpsURLConnection.disconnect();
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : disconnect");
         }
         return null;

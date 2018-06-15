@@ -28,14 +28,13 @@ public class WeatherPanel extends Panel {
 
 
     /**
-     *
      * @param caption - заголовок блока погоды
      * @param context - контекст
      */
     public WeatherPanel(String caption, VaadinUI context) {
         super(caption);
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : конструктор WeatherPanel с параметрами caption = "+caption+" VaadinUI = "+context);
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+        }.getClass().getEnclosingConstructor().getName() + " : конструктор WeatherPanel с параметрами caption = " + caption + " VaadinUI = " + context);
         verticalLayout = new VerticalLayout();
         this.context = context;
 
@@ -44,10 +43,10 @@ public class WeatherPanel extends Panel {
     public void init() {
         this.setPrimaryStyleName(WEATHER);
         initComboBox();
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
         }.getClass().getEnclosingMethod().getName() + " :  ComboBox проинициализирован");
         initWeather();
-        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
         }.getClass().getEnclosingMethod().getName() + " : Погода проинициализирована");
         setContent(verticalLayout);
     }
@@ -78,28 +77,27 @@ public class WeatherPanel extends Panel {
         //получаем температуру
         HttpTemperature httpTemperature = new HttpTemperature(context);
         Temperature temperature = httpTemperature.getTemperature("Новосибирск");
-        if(temperature == null){
+        if (temperature == null) {
             context.showNotification("Не удалось получить температуру,проверьте интернет соединение");
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : не удалось получить температуру");
-        }else {
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        } else {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : температура получена " + temperature);
         }
 
         //устанавливаем текущую погоду
         Label labelCurrent;
         Label labelTomorrow;
-        if(temperature!=null) {
+        if (temperature != null) {
             labelCurrent = new Label(CURRENT_WEATHER + temperature.getCurrent());
             labelTomorrow = new Label(TOMORROW_WEATHER + temperature.getTomorrow());
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : Лейблы проинициализированы с погодой "+temperature);
-        }
-        else {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : Лейблы проинициализированы с погодой " + temperature);
+        } else {
             labelCurrent = new Label(CURRENT_WEATHER);
             labelTomorrow = new Label(TOMORROW_WEATHER);
-            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
             }.getClass().getEnclosingMethod().getName() + " : Лейблы проинициализированы без значения");
         }
         verticalLayout.addComponent(labelCurrent);
@@ -108,20 +106,21 @@ public class WeatherPanel extends Panel {
         //инициализация ресурсов для кнопок
         Button refresh = new Button();
         refresh.setPrimaryStyleName(WEATHER + "-refresh");
-        if(Page.getCurrent().getWebBrowser().getScreenHeight()<800){
+        if (Page.getCurrent().getWebBrowser().getScreenHeight() < 800) {
             FileResource fileResource = new FileResource(new File(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
-                    +"/src/main/resources/images/refresh_32.png"));
+                    + "/src/main/resources/images/refresh_32.png"));
             refresh.setIcon(fileResource);
         }
 
-        if(Page.getCurrent().getWebBrowser().getScreenHeight()>800) {
+        if (Page.getCurrent().getWebBrowser().getScreenHeight() > 800) {
             FileResource fileResource = new FileResource(new File(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
-                    +"/src/main/resources/images/refresh_64.png"));
+                    + "/src/main/resources/images/refresh_64.png"));
             refresh.setIcon(fileResource);
         }
 
+        //создание нового потока для обработчика
         refresh.addClickListener((Button.ClickListener) event -> new Thread(() -> {
-                    logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+                    logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
                     }.getClass().getEnclosingMethod().getName() + " : Начинаю новый поток на обработчике кнопки погоды");
                     //заменяем кнопку на прогресс бар
                     ProgressBar progressBar = new ProgressBar();
@@ -135,19 +134,19 @@ public class WeatherPanel extends Panel {
                     //получаем температуру для выбранного города
                     Temperature temperatureNew = null;
                     try {
-                        if(comboBox.getSelectedItem().isPresent())
-                        temperatureNew = httpTemperature.getTemperature(comboBox.getSelectedItem().get(), progressBar);
+                        if (comboBox.getSelectedItem().isPresent())
+                            temperatureNew = httpTemperature.getTemperature(comboBox.getSelectedItem().get(), progressBar);
                         if (temperatureNew == null) {
                             labelCurrent.setValue(CURRENT_WEATHER);
                             labelTomorrow.setValue(TOMORROW_WEATHER);
-                            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+                            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
                             }.getClass().getEnclosingMethod().getName() + " :  не удалось получить температуру");
                             context.showNotification("Не удалось получить температуру,проверьте интернет соединение");
-                        }else {
+                        } else {
                             labelCurrent.setValue(CURRENT_WEATHER + temperatureNew.getCurrent());
                             labelTomorrow.setValue(TOMORROW_WEATHER + temperatureNew.getTomorrow());
-                            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
-                            }.getClass().getEnclosingMethod().getName() + " : температура получена"+temperature);
+                            logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
+                            }.getClass().getEnclosingMethod().getName() + " : температура получена" + temperature);
                         }
                     } catch (NoSuchElementException ex) {
                         verticalLayout.removeComponent(progressBar);
@@ -159,7 +158,7 @@ public class WeatherPanel extends Panel {
 
                     //обновление времени на странице
                     context.refreshDate();
-                    logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+                    logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
                     }.getClass().getEnclosingMethod().getName() + " : время обновлено");
                     progressBar.setValue(100.0f);
 
