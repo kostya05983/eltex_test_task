@@ -9,6 +9,7 @@ import com.vaadin.server.VaadinService;
 import com.vaadin.ui.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.io.File;
 
@@ -17,9 +18,9 @@ public class ExchangeRatesPanel extends Panel {
     private final String EXCHANGE_RATES = "exchangeRates";
     private final String USD = "USD: ";
     private final String EUR = "EUR: ";
-    private final Logger logger = LogManager.getLogger(ExchangeRatesPanel.class);
+    private final Logger logger = LogManager.getRootLogger();
 
-    private HttpExchangeRates httpExchangeRates = new HttpExchangeRates();//class for getting Rates
+    private HttpExchangeRates httpExchangeRates = new HttpExchangeRates();//класс для получения курсов валют
 
     private VaadinUI context;
     private VerticalLayout verticalLayout;
@@ -28,8 +29,8 @@ public class ExchangeRatesPanel extends Panel {
 
     public ExchangeRatesPanel(String caption, VaadinUI context) {
         super(caption);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : Exchange Rates constructor");
+        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        }.getClass().getEnclosingConstructor().getName() + " : Exchange Rates конструктор с параметрами caption="+caption+"context="+context);
         verticalLayout = new VerticalLayout();
         this.context = context;
     }
@@ -37,37 +38,37 @@ public class ExchangeRatesPanel extends Panel {
     public void init() {
         this.setPrimaryStyleName(EXCHANGE_RATES);
         initLabels();
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : labels was initialized");
+        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : Лейблы успешно проинициализированны");
         initButton();
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : buttons was initialized");
+        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        }.getClass().getEnclosingMethod().getName() + " : Кнопки успешно проинициализированны");
         setContent(verticalLayout);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : verticalLayout was set as Content");
-
     }
 
     //method for initLabels
     private void initLabels() {
-        //gets Rates
+        //получаем курсы валют
         Rates rates = httpExchangeRates.getRates();
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : Rates was gotten");
+        if(rates == null) {
+            labelUSD = new Label(USD);
+            labelEUR = new Label(EUR);
+            context.showNotification("Не удалось получить курсы валют,проверьте интернет соединение");
+            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : Не удалось получить курсы валют, лейблы проинициализированы без значения");
+        }
+        else {
+            labelUSD = new Label(USD + rates.getUSD());
+            labelEUR = new Label(EUR + rates.getEUR());
+            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : Курсы валют получены, лейблы проинициализированны со значениями"+rates);
+        }
 
-        //set USD Rate
-        labelUSD = new Label(USD + rates.getUSD());
         labelUSD.setPrimaryStyleName(EXCHANGE_RATES + "-labels");
-        verticalLayout.addComponent(labelUSD);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : labelUSD was initialized");
-
-        //set EUR Rate
-        labelEUR = new Label(EUR + rates.getEUR());
         labelEUR.setPrimaryStyleName(EXCHANGE_RATES + "-labels");
+
+        verticalLayout.addComponent(labelUSD);
         verticalLayout.addComponent(labelEUR);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : labelEUR was initialized");
     }
 
     //Method for Custom Button
@@ -87,54 +88,50 @@ public class ExchangeRatesPanel extends Panel {
             refresh.setIcon(fileResource);
         }
 
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : button was created");
-
+        //Создание нового потока для обработчика
         refresh.addClickListener((Button.ClickListener) event -> new Thread(() -> {
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : thread handler started");
+            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : Начинаю новый поток на обработчике кнопки курса валют");
 
-            //set progressBar instead of button
+            //заменяем кнопку на прогресс бар
             ProgressBar progressBar = new ProgressBar(0.0f);
             progressBar.setStyleName("progressBar-Rates");
             progressBar.setIndeterminate(true);
             verticalLayout.removeComponent(refresh);
             verticalLayout.addComponent(progressBar);
             progressBar.setValue(10.0f);
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : add progressBar instead button");
+            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : кнопка заменена на прогресс бар");
 
-            //getting Rates
+            //получение курса валют
             Rates rates = httpExchangeRates.getRates(progressBar);
             if (rates == null) {
-                logger.debug(new Object() {
-                }.getClass().getEnclosingMethod().getName() + " :  rates was not gotten");
-                verticalLayout.removeComponent(progressBar);
-                verticalLayout.addComponent(refresh);
+                logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+                }.getClass().getEnclosingMethod().getName() + " : курсы валют не получены");
+                labelUSD.setValue(USD);
+                labelEUR.setValue(EUR);
                 Notification notification = new Notification("Проверьте интернет соединение");
                 notification.show(Page.getCurrent());
+            } else {
+                logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+                }.getClass().getEnclosingMethod().getName() + " : курсы валют успешно получены rates="+rates);
+                labelUSD.setValue(USD + rates.getUSD());
+                labelEUR.setValue(EUR + rates.getEUR());
             }
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : get Rates");
-
-            //set Rates
-            assert rates != null;
-            labelUSD.setValue(USD + rates.getUSD());
-            labelEUR.setValue(EUR + rates.getEUR());
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : refresh labels");
-
-            //refresh date on page
-            context.refreshDate();
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : refresh Date");
-            progressBar.setValue(100.0f);
-
-            //returned button
             verticalLayout.removeComponent(progressBar);
             verticalLayout.addComponent(refresh);
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : button was returned instead of progressBar");
+
+            //обновление времени на странице
+            context.refreshDate();
+            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : время обновлено");
+            progressBar.setValue(100.0f);
+
+            //возвращаем кнопку
+            verticalLayout.removeComponent(progressBar);
+            verticalLayout.addComponent(refresh);
+            logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : кнопка возвращена");
         }).start());
 
         verticalLayout.addComponent(refresh);

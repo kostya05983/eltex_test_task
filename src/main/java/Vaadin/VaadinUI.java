@@ -23,6 +23,7 @@ public class VaadinUI extends UI {
     private final String DATE_CAPTION = "Информация по состоянию на ";
     private final String IP_CAPTION = "Ваш IP : ";
     private final int POLL_INTERVAL = 100;//interval of Update page ms
+    private static long visits;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -51,7 +52,8 @@ public class VaadinUI extends UI {
 
         logger.debug(new Object() {
         }.getClass().getEnclosingMethod().getName() + " : new user refresh database");
-        refresh();
+        new Thread(this::refresh).start();
+
 
         //create Main vertical layout
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -126,7 +128,9 @@ public class VaadinUI extends UI {
         try {
             Connect connect = new Connect();
             connect.writeOneVisit();
+            visits = connect.getVisists();
         }catch (Exception e) {
+            showNotification("Не удалось подключиться к базе данных, обратитесь к администратору");
             logger.error(new Object() {
             }.getClass().getEnclosingMethod().getName()+e.getMessage());
         }
@@ -145,5 +149,10 @@ public class VaadinUI extends UI {
         notification.setStyleName("Notification");
         notification.show(UI.getCurrent().getPage());
     }
+
+    public long getVisits() {
+        return visits;
+    }
+
 
 }

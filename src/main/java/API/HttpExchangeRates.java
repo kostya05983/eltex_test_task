@@ -6,6 +6,7 @@ import com.vaadin.ui.ProgressBar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -14,7 +15,8 @@ import java.util.Properties;
 
 public class HttpExchangeRates {
     private final static String RATES_REQUEST;//request
-    private final static String CONFIGURATION_FILE = "/http_exchange_rates.properties";//имя файла с константами
+    //private final static String CONFIGURATION_FILE = "/http_exchange_rates.properties";//имя файла с константами
+    private final static String CONFIGURATION_FILE = "/home/kostya05983/lol/testtask/src/main/resources/http_exchange_rates.properties";//имя файла с константами
     private HttpURLConnection httpURLConnection;
     private final static Logger logger = LogManager.getLogger(HttpExchangeRates.class);
 
@@ -23,7 +25,8 @@ public class HttpExchangeRates {
     static {
         Properties properties = new Properties();
 
-        try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+        //try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+        try (FileInputStream inputStream = new FileInputStream(CONFIGURATION_FILE)) {
             properties.load(inputStream);
         } catch (IOException e) {
             logger.error(new Object() {

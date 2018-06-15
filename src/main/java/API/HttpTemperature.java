@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -14,7 +15,8 @@ import java.net.URL;
 import java.util.Properties;
 
 public class HttpTemperature {
-    private final static String CONFIGURATION_FILE = "/http_temperature.properties";//имя файла с константами
+    //private final static String CONFIGURATION_FILE = "/http_temperature.properties";//имя файла с константами
+    private final static String CONFIGURATION_FILE = "/home/kostya05983/lol/testtask/src/main/resources/http_temperature.properties";//имя файла с константами
     private final static String YANDEX_KEY;//key for API Yandex-WEATHER
     private final static String GOOGLE_KEY;
     private final static String REQUEST_GEOCORDINATING;
@@ -27,7 +29,8 @@ public class HttpTemperature {
     static {
         Properties properties = new Properties();
 
-        try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+        //try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+        try (FileInputStream inputStream = new FileInputStream(CONFIGURATION_FILE)) {
             properties.load(inputStream);
         } catch (IOException e) {
             logger.error(new Object() {
@@ -47,9 +50,12 @@ public class HttpTemperature {
     public Temperature getTemperature(String location) {
         //get coordinates from String
         Coordinate coordinate = getCoordinates(location);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : coordinate was gotten");
-
+        if(coordinate == null) {
+            return null;
+        }else {
+            logger.debug(new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : coordinate was gotten");
+        }
         Temperature temperature = null;
         try {
             //open connection
@@ -81,11 +87,14 @@ public class HttpTemperature {
             logger.error(new Object() {
             }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
         } finally {
-            httpURLConnection.disconnect();
-            logger.debug(new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : disconnect");
-        }
 
+            if( temperature!=null) {
+                httpURLConnection.disconnect();
+                logger.debug(new Object() {
+                }.getClass().getEnclosingMethod().getName() + " : disconnect");
+            }
+        }
+        System.out.println("temperature"+temperature);
         return temperature;
     }
 
@@ -93,12 +102,15 @@ public class HttpTemperature {
     public Temperature getTemperature(String location, ProgressBar progressBar) {
         //get coordinates from String
         Coordinate coordinate = getCoordinates(location);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : coordinate was gotten");
+        if(coordinate == null) {
+            return null;
+        }else {
+            logger.debug(new Object() {
+            }.getClass().getEnclosingMethod().getName() + " : coordinate was gotten");
+        }
         Temperature temperature = null;
         try {
             //open connection
-            assert coordinate != null;
             URL url = new URL(YANDEX_WEATHER_REQUEST + "lat=" + coordinate.getX()
                     + "&lon=" + coordinate.getY());
             progressBar.setValue(10.0f);

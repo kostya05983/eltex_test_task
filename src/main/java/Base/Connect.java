@@ -5,6 +5,7 @@ import com.mongodb.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.UnknownHostException;
@@ -13,7 +14,8 @@ import java.util.Properties;
 
 public class Connect {
     private final static  Logger logger = LogManager.getLogger(Connect.class);
-    private final static String CONFIGURATION_FILE = "/data_base.properties";//имя файла с константами для базы данных
+    //private final static String CONFIGURATION_FILE = "/data_base.properties";//имя файла с константами для базы данных
+    private final static String CONFIGURATION_FILE = "/home/kostya05983/lol/testtask/src/main/resources/data_base.properties";//имя файла с константами для базы данных
     private final static String NAME_DATA_BASE; //имя базы данных
     private final static String COLLECTION_NAME; //имя коллекции в этой базе
     private final static String FIELD_KEY; //имя столбца
@@ -23,7 +25,8 @@ public class Connect {
     static {
         Properties properties = new Properties();
 
-        try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+        //try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
+        try (FileInputStream inputStream = new FileInputStream(CONFIGURATION_FILE)) {
             properties.load(inputStream);
         } catch (IOException e) {
             logger.error(new Object() {

@@ -6,38 +6,32 @@ import Vaadin.Panels.WeatherPanel;
 import com.vaadin.ui.HorizontalLayout;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.MarkerManager;
 
 class MainHorizontalLayout extends HorizontalLayout {
 
-    private final Logger logger = LogManager.getLogger(MainHorizontalLayout.class);
-    private WeatherPanel weatherPanel;
-    private ExchangeRatesPanel exchangeRatesPanel;
-    private VisitsPanel visitsPanel = new VisitsPanel("Количество посетителей");
-
     MainHorizontalLayout(VaadinUI context) {
-        //create and init weather Panel
-        weatherPanel = new WeatherPanel("Погода", context);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : create Weather Panel");
-        addComponent(weatherPanel);
+        //конфигурируем weather Panel
+        Logger logger = LogManager.getRootLogger();
+        WeatherPanel weatherPanel = new WeatherPanel("Погода", context);
         weatherPanel.init();
-        logger.debug(new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : init WeatherPanel");
+        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        }.getClass().getEnclosingConstructor().getName() + " : WeatherPanel проинициализирована");
+        addComponent(weatherPanel);
 
-        //create and init exchangeRatesPanel
-        exchangeRatesPanel = new ExchangeRatesPanel("Курсы валют", context);
-        logger.debug(new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : create exchangeRatesPanel");
-        addComponent(exchangeRatesPanel);
+        //конфигурируем exchangeRatesPanel
+        ExchangeRatesPanel exchangeRatesPanel = new ExchangeRatesPanel("Курсы валют", context);
         exchangeRatesPanel.init();
-        logger.debug(new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : init ExchangeRatesPanel");
+        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        }.getClass().getEnclosingConstructor().getName() + " : ExchangeRatesPanel проинициализирована");
+        addComponent(exchangeRatesPanel);
 
-        //create and init visitsPanel
-        addComponent(visitsPanel);
+        //конфигурируем visitsPanel
+        VisitsPanel visitsPanel = new VisitsPanel("Количество посетителей", context);
         visitsPanel.init();
-        logger.debug(new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : init visits Panel");
+        logger.debug(MarkerManager.getMarker("SERVER"),new Object() {
+        }.getClass().getEnclosingConstructor().getName() + " : visits Panel проинициализирована");
+        addComponent(visitsPanel);
     }
 
 }
