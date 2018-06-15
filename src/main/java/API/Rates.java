@@ -24,4 +24,12 @@ public class Rates {
     public void setEUR(double EUR) {
         this.EUR = EUR;
     }
+
+    @Override
+    public String toString() {
+        return "Rates{" +
+                "USD=" + USD +
+                ", EUR=" + EUR +
+                '}';
+    }
 }

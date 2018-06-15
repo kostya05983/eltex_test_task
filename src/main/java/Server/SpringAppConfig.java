@@ -27,7 +27,7 @@ public class SpringAppConfig implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) {
         // Create the 'root' Spring application context
         log.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " :application context создан");
+        }.getClass().getEnclosingMethod().getName() + " : application context создан");
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(SpringAppConfig.class);
 
@@ -38,7 +38,7 @@ public class SpringAppConfig implements WebApplicationInitializer {
         ServletRegistration.Dynamic vaadin = servletContext
                 .addServlet("vaadin", new VaadinServlet());
         log.debug(MarkerManager.getMarker("SERVER"),new Object() {
-        }.getClass().getEnclosingMethod().getName() + " :Сервлет Vaadin добавлен");
+        }.getClass().getEnclosingMethod().getName() + " : Сервлет Vaadin добавлен");
         vaadin.setLoadOnStartup(1);
         vaadin.addMapping("/*");
     }

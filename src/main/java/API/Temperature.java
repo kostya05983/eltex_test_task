@@ -24,4 +24,12 @@ public class Temperature {
     public void setTomorrow(String tomorrow) {
         this.tomorrow = tomorrow;
     }
+
+    @Override
+    public String toString() {
+        return "Temperature{"+
+                "current="+current
+                +", tomorrow="+tomorrow
+                +"}";
+    }
 }
