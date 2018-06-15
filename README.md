@@ -5,7 +5,7 @@
 но совместим также начиная с jdk 8
 ### Prerequisites
 
-Вам необходимо минимально Jdk 8, Gradle 4.6, MongoDB
+Вам необходимо установить для запуска Jdk 8, Gradle 4.6, MongoDB
 
 Gradle : https://gradle.org/install/
 
@@ -68,11 +68,11 @@ service mongod start
 
 mongo --host 127.0.0.1:27017
 
-use VisitsDB //при этом необходимо настроить бд
+use VisitsDB //при этом необходимо заранее настроить бд с нужнйо коллекцией
 
 Включить скрипт server.sh
 
-и написать run
+и написать команду run
 
 ## Built With
 

@@ -27,8 +27,8 @@ public class Connect {
         try (InputStream inputStream = ClassLoader.class.getResourceAsStream(CONFIGURATION_FILE)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            logger.error(new Object() {
-            }.getClass().getEnclosingMethod().getName() + ":" + e.getMessage());
+            e.printStackTrace();
+            logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
             throw new RuntimeException("Failed to read file " + CONFIGURATION_FILE, e);
         }
 
@@ -52,8 +52,7 @@ public class Connect {
             mongoClient = new MongoClient();
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"), new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"), e.getMessage());
         }
         assert mongoClient != null;
         database = mongoClient.getDB(NAME_DATA_BASE);
@@ -79,8 +78,7 @@ public class Connect {
             mongoClient = new MongoClient();
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            logger.error(MarkerManager.getMarker("SERVER"), new Object() {
-            }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"),  e.getMessage());
         }
         assert mongoClient != null;
         database = mongoClient.getDB(NAME_DATA_BASE);

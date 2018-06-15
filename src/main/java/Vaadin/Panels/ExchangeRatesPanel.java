@@ -34,7 +34,7 @@ public class ExchangeRatesPanel extends Panel {
     public ExchangeRatesPanel(String caption, VaadinUI context) {
         super(caption);
         logger.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingConstructor().getName() + " : Exchange Rates конструктор с параметрами caption = " + caption + "context = " + context);
+        }.getClass().getEnclosingConstructor().getName() + " : Exchange Rates конструктор с параметрами caption = " + caption + " context = " + context);
         verticalLayout = new VerticalLayout();
         this.context = context;
     }
@@ -87,7 +87,7 @@ public class ExchangeRatesPanel extends Panel {
 
         if (Page.getCurrent().getWebBrowser().getScreenHeight() < 800) {
             FileResource fileResource = new FileResource(new File(VaadinService.getCurrent().getBaseDirectory().getAbsolutePath()
-                    + "/src/main/resources/images/refresh_64.png"));
+                    + "/src/main/resources/images/refresh_32.png"));
             refresh.setIcon(fileResource);
         }
 

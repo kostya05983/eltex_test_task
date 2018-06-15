@@ -101,6 +101,7 @@ public class VaadinUI extends UI {
             }
 
         } catch (IOException e) {
+            logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
             e.printStackTrace();
         }
     }
@@ -136,8 +137,8 @@ public class VaadinUI extends UI {
             visits = connect.getVisits();
         } catch (Exception e) {
             showNotification("Не удалось подключиться к базе данных, обратитесь к администратору");
-            logger.error(MarkerManager.getMarker("SERVER"), new Object() {
-            }.getClass().getEnclosingMethod().getName() + e.getMessage());
+            logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
+            e.printStackTrace();
             return;
         }
         logger.debug(MarkerManager.getMarker("SERVER"), new Object() {

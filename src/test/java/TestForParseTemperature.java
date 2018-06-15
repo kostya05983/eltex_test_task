@@ -7,7 +7,7 @@ public class TestForParseTemperature {
     private final static Logger logger = LogManager.getLogger(TestForParseTemperature.class);
 
     public static void main(String[] args) {
-        HttpTemperature httpTemperature = new HttpTemperature();
+        HttpTemperature httpTemperature = new HttpTemperature(null);
         Temperature temperature = httpTemperature.getTemperature("Новосибирск");
         if(temperature==null)
             logger.error(new Object() {

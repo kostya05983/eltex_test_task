@@ -59,8 +59,7 @@ public class VisitsPanel extends Panel {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    logger.error(MarkerManager.getMarker("SERVER"), new Object() {
-                    }.getClass().getEnclosingMethod().getName() + " : " + e.getMessage());
+                    logger.error(MarkerManager.getMarker("SERVER"),e.getMessage());
                 }
             }
         }

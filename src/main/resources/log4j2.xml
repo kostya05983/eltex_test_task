@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="MyApp" packages="">
+<Configuration status="ALL" name="MyApp" packages="">
     <Appenders>
         <File name="File" fileName="server.log">
             <MarkerFilter marker="SERVER" onMatch="ACCEPT" onMismatch="DENY"/>
@@ -9,8 +9,8 @@
         </File>
     </Appenders>
     <Loggers>
-        <Root level="debug">
-            <AppenderRef ref="File"/>
+        <Root level="ALL">
+            <AppenderRef ref="File" level="ALL" />
         </Root>
     </Loggers>
 </Configuration>
