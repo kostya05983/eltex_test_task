@@ -45,7 +45,8 @@ public class Main {
             ServerSocket serverSocket = new ServerSocket(PORT);
             serverSocket.close();
         } catch (IOException e) {
-            log.error("Порт занят");
+            System.out.println("Порт занят");
+            log.error(MarkerManager.getMarker("SERVER"),"Порт занят");
             System.exit(0);
         }
 
