@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Функция для выыбора файла с константами
 function switchFile {
 position=`expr index "$1" $" "`
 request=$1;
@@ -20,6 +21,7 @@ changeConst "$1" 'http_temperature.properties'
 fi
 }
 
+# функция для изменения константы, просматриваем файл сохраняя просмотренное, в процессе меняем константу и перезаписываем файл
 function changeConst {
 file=$2
 request=$1
@@ -51,6 +53,7 @@ done <$file
 echo -e "$out">$file
 cd -
 }
+# функция для показа содержимых всех конфигов
 function showAll {
 cd ./src/main/resources/
 echo "server.properties:"
@@ -69,10 +72,12 @@ cd -
 
 echo -e "Введите help,чтобы вызвать справку"
 choice=''
+#цикл по скрипту для выбора команд
 while true
 do
 echo -n ">"
 read choice
+#условие для сборки и запуска
 if [ "$choice" = $"run" ]
 then
 if [ -d build ]
@@ -82,11 +87,13 @@ fi
 gradle build
 java -jar ./build/libs/TestTaskNew-1.0-SNAPSHOT-all.jar
 fi
+# условие для изменения константы
 if [ ${choice:0:3} = $"set" ]
 then
 choice=${choice:4}
 switchFile "$choice"
 fi
+# условие для вызова помощи
 if [ ${choice:0:4} = $"help" ]
 then
 choice=${choice:5}
@@ -99,10 +106,12 @@ choice=${choice:5}
 	echo -e "PORT - номер порта \nAPP_BASE - директория приложения\nLOCATION - расположение верхней директории приложения\nYANDEX_KEY - ключ для яндекс погоды\nGOOGLE_KEY - ключ для определения местоположения\nREQUEST_GEOCORDINATING - запрос для определения местоположения\nYANDEX_WEATHER_REQUEST - запрос для погоды от яндекса\nRATES_REQUEST - запрос для определения валют\nNAME_DATA_BASE - имя базы данных\nCOLLECTION_NAME -имя коллекции\nFIELD_KEY - имя ключа"
 	fi
 fi
+#условие для выхода из скрипта
 if [ "$choice" = $"stop" ]
 then
 exit 0
 fi
+#условие для показа содержимого всех файлов
 if [ "$choice" = $"show" ]
 then
 showAll
