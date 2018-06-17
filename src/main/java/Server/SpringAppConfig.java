@@ -34,8 +34,7 @@ public class SpringAppConfig implements WebApplicationInitializer {
 
         ServletRegistration.Dynamic vaadin = servletContext
                 .addServlet("vaadin", new VaadinServlet());
-        log.debug(MarkerManager.getMarker("SERVER"), new Object() {
-        }.getClass().getEnclosingMethod().getName() + " : Сервлет Vaadin добавлен");
+        log.debug(MarkerManager.getMarker("SERVER"),"Сервлет Vaadin добавлен");
         vaadin.setLoadOnStartup(1);
         vaadin.addMapping("/*");
     }
