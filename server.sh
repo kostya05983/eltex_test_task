@@ -75,7 +75,10 @@ echo -n ">"
 read choice
 if [ "$choice" = $"run" ]
 then
+if [ -d build ]
+then
 rm -r build
+fi
 gradle build
 java -jar ./build/libs/TestTaskNew-1.0-SNAPSHOT-all.jar
 fi
